@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway — APMC Talent Lifecycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f6ff;--panel:#fff;--ink:#20212b;--ink2:#4a4c70;--mut:#8a8caa;--line:#e6e8f2;
+    --nav:#20212b;--nav2:#33354a;--navtext:#b9bdce;--navhover:#33354a;
+    --indigo:#fdbe33;--indigo-bg:#fff6e0;--emerald:#10b981;--emerald-bg:#e7f7f0;
+    --amber:#f59e0b;--amber-bg:#fdf3e0;--rose:#f43f5e;--rose-bg:#fdeef0;
+    --sky:#0ea5e9;--sky-bg:#e6f5fd;--violet:#e0a81e;--violet-bg:#f1ebff;--teal:#14b8a6;--teal-bg:#e3f7f4;
+    --r:16px;--r2:12px;--sh:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 'Quicksand','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  .side{background:linear-gradient(180deg,var(--nav),var(--nav2));color:var(--navtext);padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:11px;padding:4px 8px 18px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--indigo),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;box-shadow:0 6px 16px rgba(99,102,241,.4)}
+  .brand b{color:#fff;font-size:18px;letter-spacing:-.02em;display:block;line-height:1}
+  .brand small{color:#6b7895;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+  .nav{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+  .nav .lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#566179;padding:14px 10px 6px}
+  .nav button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:0;color:var(--navtext);font:inherit;font-size:14px;font-weight:500;padding:10px 12px;border-radius:10px;cursor:pointer;transition:.13s}
+  .nav button .ic{width:18px;text-align:center}
+  .nav button:hover{background:var(--navhover);color:#fff}
+  .nav button.active{background:linear-gradient(135deg,#fdbe33,#e0a81e);color:#20212b;box-shadow:0 6px 16px rgba(253,190,51,.4)}
+  .side .foot{margin-top:auto;font-size:11px;color:#566179;padding:12px 10px 0;border-top:1px solid #1e2a45;line-height:1.5}
+  .side .foot button{background:none;border:0;color:#7f8db0;font:inherit;font-size:11px;cursor:pointer;text-decoration:underline;padding:6px 0 0}
+  .main{min-width:0}
+  .topbar{background:var(--panel);border-bottom:1px solid var(--line);padding:13px 30px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20}
+  .topbar h1{font-size:18px;margin:0;letter-spacing:-.01em}
+  .topbar .crumb{color:var(--mut);font-size:12.5px}
+  .topbar select{margin-left:auto;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit;font-size:13px;background:#fff;color:var(--ink)}
+  .view{padding:26px 30px 70px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+  .pad{padding:20px 22px}
+  h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:0 0 14px;font-weight:800}
+  .grid{display:grid;gap:18px}.kpis{grid-template-columns:repeat(5,1fr)}@media(max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{padding:18px 20px}.kpi .v{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1}.kpi .k{font-size:12.5px;color:var(--mut);margin-top:8px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+  .p-exec{background:var(--amber-bg);color:#b4790a}.p-sales{background:var(--indigo-bg);color:#4f46e5}.p-ops{background:var(--teal-bg);color:#0d9488}
+  .p-ok{background:var(--emerald-bg);color:#059669}.p-risk{background:var(--rose-bg);color:#e11d48}.p-wait{background:var(--amber-bg);color:#b4790a}.p-soon{background:var(--sky-bg);color:#0284c7}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:800;padding:10px 14px;border-bottom:1px solid var(--line)}
+  td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}tr:last-child td{border-bottom:none}
+  tr.rowlink{cursor:pointer}tr.rowlink:hover{background:#fafbff}
+  .who{display:flex;align-items:center;gap:9px}.who small{color:var(--mut);font-size:11.5px;display:block}
+  .ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;color:#fff;flex:0 0 auto}
+  .bar{height:8px;border-radius:6px;background:#eef0f5;overflow:hidden}.bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--indigo),var(--violet))}
+  .btn{border:0;border-radius:9px;font:inherit;font-weight:700;font-size:12.5px;padding:9px 15px;cursor:pointer;transition:.12s}
+  .btn.pri{background:var(--indigo);color:#20212b}.btn.pri:hover{background:#e0a81e}.btn.ghost{background:var(--bg);color:var(--ink2)}.btn.ghost:hover{background:#e3e7f5}
+  .tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:5px}.tag.ess{background:#eef2f7;color:#475569}.tag.enh{background:var(--violet-bg);color:#7c3aed}
+  .seg{display:inline-flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px}
+  .seg button{border:0;background:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink2);padding:6px 13px;border-radius:7px;cursor:pointer}.seg button.on{background:#fff;color:#20212b;box-shadow:var(--sh)}
+  .grp-h{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:800;margin:18px 0 6px}
+  .task{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #f1f3f7;font-size:13.5px}.task:last-child{border:none}
+  .chk{width:19px;height:19px;border-radius:5px;border:2px solid #cdd5e2;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;cursor:pointer}
+  .chk.done{background:var(--emerald);border-color:var(--emerald)}.chk.blk{background:var(--rose);border-color:var(--rose);cursor:pointer}
+  .task .tw{flex:1}.task .tw small{color:var(--mut);font-size:11.5px}.task .tw.d{text-decoration:line-through;color:var(--mut)}
+  .field{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.field:last-child{border:none}.field .fl{color:var(--mut)}.field .fv{font-weight:600;text-align:right}
+  .lock{background:#f8f4ff;border:1px dashed #d9cdf5;border-radius:8px;padding:9px 12px;font-size:12px;color:#7c3aed;display:flex;gap:8px;margin:7px 0}
+  .board{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
+  .lane{flex:0 0 210px;background:var(--bg);border-radius:var(--r2);padding:12px}
+  .lane h4{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);display:flex;justify-content:space-between}.lane h4 span{color:var(--mut)}
+  .ccard{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:9px;box-shadow:var(--sh);cursor:pointer;border-left:4px solid var(--indigo)}
+  .ccard.exec{border-left-color:var(--amber)}.ccard.sales{border-left-color:var(--indigo)}.ccard.ops{border-left-color:var(--teal)}
+  .ccard b{font-size:13.5px}.ccard .cm{color:var(--mut);font-size:11.5px;margin-top:3px}
+  .scrim{position:fixed;inset:0;background:rgba(10,15,25,.5);opacity:0;visibility:hidden;transition:.2s;z-index:90}.scrim.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:min(560px,95vw);background:#fff;box-shadow:-14px 0 44px rgba(15,23,42,.2);transform:translateX(101%);transition:.27s cubic-bezier(.4,0,.2,1);z-index:100;display:flex;flex-direction:column}.drawer.open{transform:none}
+  .dr-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;gap:14px}.dr-head .x{margin-left:auto;border:0;background:var(--bg);width:32px;height:32px;border-radius:9px;font-size:15px;cursor:pointer;color:var(--ink2)}
+  .dr-head h3{margin:4px 0 0;font-size:18px}.dr-body{padding:18px 24px;overflow-y:auto}
+  .sop-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f1f3f7}.sop-step:last-child{border:none}.sop-step .sn{width:23px;height:23px;border-radius:50%;background:var(--indigo-bg);color:#8a6510;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.sop-step small{display:block;color:var(--mut);font-size:12px}
+  .sop-prov{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:8px}.sop-prov .ph{padding:8px 12px;color:#fff;font-weight:700;font-size:12.5px}.sop-prov ul{margin:0;padding:8px 12px 8px 28px;font-size:12.5px;color:var(--ink2)}
+  .sop-done{background:var(--emerald-bg);border:1px solid #bbf0db;border-radius:10px;padding:11px 14px;font-size:12.5px;color:#065f46;margin-top:14px;font-weight:600}
+  .openhint{font-size:11px;font-weight:800;color:#8a6510;cursor:pointer;background:var(--indigo-bg);padding:3px 9px;border-radius:7px}
+  .modal-scrim{position:fixed;inset:0;background:rgba(10,15,25,.5);display:none;align-items:flex-start;justify-content:center;z-index:110;padding:60px 20px;overflow-y:auto}.modal-scrim.open{display:flex}
+  .modal{background:#fff;border-radius:var(--r);width:min(520px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal h3{margin:0;padding:20px 24px;border-bottom:1px solid var(--line);font-size:18px}
+  .modal .mbody{padding:20px 24px}.modal label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);margin:14px 0 5px}.modal label:first-child{margin-top:0}
+  .modal input,.modal select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;font-size:14px}
+  .modal .mfoot{padding:16px 24px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+  .empty{text-align:center;color:var(--mut);padding:40px;font-size:14px}
+  .addrow{display:flex;gap:9px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}.addrow input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font:inherit;font-size:13px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand" style="flex-direction:column;align-items:flex-start;gap:11px">
+      <div style="background:#fff;border-radius:10px;padding:8px 11px;line-height:0"><img src="apmc_logo.png" alt="American Portfolio Mortgage" style="height:24px;display:block"></div>
+      <div><b style="font-size:17px">Runway</b><small>Talent Lifecycle</small></div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="lbl">Operate</div>
+      <button class="active" data-v="dash"><span class="ic">▦</span> Dashboard</button>
+      <button data-v="pipeline"><span class="ic">⛢</span> Pipeline</button>
+      <button data-v="tasks"><span class="ic">✓</span> Tasks</button>
+      <button data-v="record"><span class="ic">▤</span> Candidate</button>
+      <button data-v="huddle"><span class="ic">◎</span> Huddle</button>
+      <button data-v="portal"><span class="ic">✦</span> Recruit Portal</button>
+      <div class="lbl">Configure</div>
+      <button data-v="sops"><span class="ic">▣</span> SOP Library</button>
+    </nav>
+    <button class="btn pri" style="margin-top:14px;width:100%" onclick="openAdd()">+ Add candidate</button>
+    <div class="foot"><b style="color:#8ea0c4">Functional build · saves to this browser</b><br>Real data + task engine. Add candidates, check things off — it persists.<br><button onclick="resetDemo()">Reset to demo data</button></div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <div><h1 id="vtitle">Dashboard</h1><div class="crumb" id="vcrumb"></div></div>
+      <select id="candpick" onchange="setCand(this.value)"></select>
+    </div>
+    <div class="view" id="view"></div>
+  </div>
+</div>
+<div class="scrim" id="scrim" onclick="closeSOP()"></div>
+<aside class="drawer" id="drawer"><div class="dr-head"><div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--indigo)" id="drtag"></div><h3 id="drtitle"></h3></div><button class="x" onclick="closeSOP()">✕</button></div><div class="dr-body" id="drbody"></div></aside>
+<div class="modal-scrim" id="modal"></div>
+
+<script>
+//=================== DATA MODEL + ENGINE ===================
+const PHASES_REL=['Site Visit','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance'];
+const PHASES_OPS=['Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance'];
+// task template: {phase, ord, title, owner, off(days from start), ess, sop, tracks}
+const TPL=[
+ // Site visit (exec/sales)
+ {ph:'Site Visit',title:'Log candidate + production profile',owner:'Recruiter',off:-42,ess:true,sop:'site',tr:['exec','sales']},
+ {ph:'Site Visit',title:'Travel intake + book flight / driver / hotel',owner:'Admin',off:-40,ess:true,sop:'site',tr:['exec','sales']},
+ {ph:'Site Visit',title:'Welcome box + culture book',owner:'Admin',off:-39,ess:false,sop:'site',tr:['exec','sales']},
+ {ph:'Site Visit',title:'Visit day — full run-of-show',owner:'All',off:-38,ess:true,sop:'site',tr:['exec','sales']},
+ {ph:'Site Visit',title:'24h recap + ◆ move-forward decision',owner:'Leadership',off:-37,ess:true,tr:['exec','sales']},
+ // Screen/interview (ops)
+ {ph:'Screen & Interview',title:'Post JD + applicant funnel',owner:'Recruiter',off:-40,ess:true,tr:['ops']},
+ {ph:'Screen & Interview',title:'Phone screen',owner:'Recruiter',off:-35,ess:true,tr:['ops']},
+ {ph:'Screen & Interview',title:'Role-based skills assessment',owner:'Team Lead',off:-32,ess:true,tr:['ops']},
+ {ph:'Screen & Interview',title:'Structured interview + ◆ decision',owner:'Hiring Mgr',off:-30,ess:true,tr:['ops']},
+ // Offer / BI (all)
+ {ph:'Offer / BI',title:'Send offer + technology agreement',owner:'HR',off:-28,ess:true,tr:['exec','sales','ops']},
+ {ph:'Offer / BI',title:'Accepted · start date set',owner:'HR',off:-27,ess:true,tr:['exec','sales','ops']},
+ {ph:'Offer / BI',title:'Order background investigation (same day)',owner:'HR',off:-27,ess:true,sop:'bi',tr:['exec','sales','ops']},
+ {ph:'Offer / BI',title:'◆ BI cleared — gate',owner:'BRI',off:-23,ess:true,sop:'bi',tr:['exec','sales','ops']},
+ // Pre-boarding
+ {ph:'Pre-boarding',title:'Internal provisioning — M365 · Okta · phone · Encompass',owner:'IT',off:-21,ess:true,sop:'provision',tr:['exec','sales','ops']},
+ {ph:'Pre-boarding',title:'Ship machine + culture book',owner:'IT',off:-21,ess:true,tr:['exec','sales','ops']},
+ {ph:'Pre-boarding',title:'Verify all non-license logins working',owner:'IT',off:-10,ess:true,sop:'provision',tr:['exec','sales','ops']},
+ {ph:'Pre-boarding',title:'Marketing build — landing page · social · press',owner:'Marketing',off:-20,ess:false,tr:['exec','sales']},
+ {ph:'Pre-boarding',title:'Pre-boarding touchpoints (ramp cadence)',owner:'Recruiter',off:-28,ess:true,sop:'ramp',tr:['exec','sales']},
+ {ph:'Pre-boarding',title:'Pre-Day-1 systems training (take-an-app ready)',owner:'Trainer',off:-7,ess:false,tr:['exec','sales']},
+ // Day 1-30
+ {ph:'Day 1 → 30',title:'NMLS transfer · FHAC / WebLGY / GUS',owner:'Licensing',off:0,ess:true,sop:'license',tr:['exec','sales']},
+ {ph:'Day 1 → 30',title:'Valley landing page goes live',owner:'Marketing',off:0,ess:false,tr:['exec','sales']},
+ {ph:'Day 1 → 30',title:'Day-1 welcome — desk · tour · team email',owner:'Supervisor',off:0,ess:true,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Capture "All About You"',owner:'HR',off:0,ess:false,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'First-week HR — I-9 · W-4 · handbook',owner:'HR',off:2,ess:true,sop:'hrweek',tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Annual compliance training',owner:'Trainer',off:4,ess:true,sop:'hrweek',tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Systems training — Encompass · CRM · POS',owner:'Trainer',off:1,ess:true,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Daily check-ins (week 1)',owner:'Manager',off:1,ess:true,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'1st Friday — CEO/COO/C-suite BombBomb + gift',owner:'Leadership',off:4,ess:false,tr:['exec','sales']},
+ {ph:'Day 1 → 30',title:'Onboarding huddle (tapering cadence)',owner:'Full group',off:2,ess:true,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Day-30 Training Survey #1',owner:'Trainer',off:30,ess:true,tr:['exec','sales','ops']},
+ // Maintenance
+ {ph:'Maintenance',title:'Day-60 check-in',owner:'Supervisor',off:60,ess:true,tr:['exec','sales','ops']},
+ {ph:'Maintenance',title:'Day-90 review + Training Survey #2',owner:'Supervisor',off:90,ess:true,tr:['exec','sales','ops']},
+ {ph:'Maintenance',title:'Quarterly recognition (from All About You)',owner:'Supervisor',off:90,ess:false,tr:['exec','sales','ops']},
+];
+const SOPS={
+ site:{tag:'Phase 1 · Sales/Exec',title:'Site Visit — prep + run-of-show',body:`<div class="sop-step"><div class="sn">1</div><div><b>Intel & calendars</b><small>Production profile + favorites into the record; book the visit on every dept head's calendar, tailored to their book.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>Travel — book it</b><small>Flight (company card) · driver (share name/number) · hotel (&lt;2mi, exec suite, incidentals paid).</small></div></div><div class="sop-step"><div class="sn">3</div><div><b>Personalize + welcome box</b><small>Researched gift · cup/pen/notepad/culture book · signed leadership card in the car.</small></div></div><div class="sop-step"><div class="sn">4</div><div><b>Visit day</b><small>Red carpet · CNBC · signage → 11:00 UW · 1:00 Secondary · 2:00 Ops · 3:00 Tech · dinner.</small></div></div><div class="sop-done">✓ Done = 24h recap logged → Move-Forward gate.</div>`},
+ bi:{tag:'Phase 2A · the gate',title:'Background Investigation (BRI · FCRA)',body:`<div class="sop-step"><div class="sn">1</div><div><b>Conditional, post-offer</b><small>Order the day they accept.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>FCRA disclosure + written auth</b></div></div><div class="sop-step"><div class="sn">3</div><div><b>Submit to BRI</b><small style="color:#7c3aed">SSN/DOB used HERE ONLY — never logged, never pushed elsewhere.</small></div></div><div class="sop-step"><div class="sn">4</div><div><b>Scope</b><small>Criminal · SSN trace · NMLS Consumer Access · LDP/SAM · license checks.</small></div></div><div class="sop-done">⛔ Nothing — tech, provisioning, marketing — goes out until this clears. ✓ Then 2B fires.</div>`},
+ provision:{tag:'Phase 2B · all tracks',title:'Provision access — who sets up what',body:`<div class="sop-prov"><div class="ph" style="background:#10b981">HR · Paylocity</div><ul><li>HRIS · payroll · benefits · CompenSafe · BI · handbook/I-9</li></ul></div><div class="sop-prov"><div class="ph" style="background:#0ea5e9">IT — Identity & Device</div><ul><li>Laptop · Entra/M365 + Okta (auto via Paylocity→Entra) · Teams · RingCentral · DLs · Adobe · Dropbox Sign</li></ul></div><div class="sop-prov"><div class="ph" style="background:#8b5cf6">Mortgage Tech</div><ul><li>Xactus · ServiceLink · LoanSafe · DU/LPA/GUS · MI · Reggora</li></ul></div><div class="sop-prov"><div class="ph" style="background:#f59e0b">Pricing</div><ul><li>Optimal Blue · MBS/QuoteLine</li></ul></div><div class="sop-prov"><div class="ph" style="background:#6366f1">Sales/Marketing</div><ul><li>Simple Nexus POS · Total Expert · Valley · Homebot</li></ul></div><div class="sop-prov"><div class="ph" style="background:#64748b">Encompass Admin</div><ul><li>Persona · pipeline scope · clear-conditions · reporting</li></ul></div><div class="sop-done">✓ Every non-license login verified before Day 1 (shift-left).</div>`},
+ ramp:{tag:'Phase 2B · engagement',title:'Pre-boarding touchpoint — Do / Discover / Capture',body:`<div class="sop-step"><div class="sn">1</div><div><b>Do</b><small>Advance the site/bio/press — gives a reason to connect.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>Discover</b><small>What's closing when you start? Who's coming? Concerns?</small></div></div><div class="sop-step"><div class="sn">3</div><div><b>Capture</b><small style="color:#7c3aed">Log it; if a problem-in-waiting, spawn a task. ("3 loans first week → Ops prep.")</small></div></div><div class="sop-done">KPI = problems-prevented, not schedule adherence. Cadence S−28 1/wk → daily week-of; compresses by runway tier.</div>`},
+ license:{tag:'Phase 3A · Day 1',title:'NMLS transfer + government logins',body:`<div class="sop-step"><div class="sn">1</div><div><b>NMLS transfer / sponsorship</b></div></div><div class="sop-step"><div class="sn">2</div><div><b>FHAC · WebLGY · USDA/GUS</b></div></div><div class="sop-step"><div class="sn">3</div><div><b>Valley page live</b><small>unblocked by sponsorship</small></div></div><div class="lock"><span>⚠</span> <b>Blocker the system tracks:</b> prior employer hasn't disconnected them — task holds "waiting-external," auto-chases, re-checks until released.</div><div class="sop-done">Can't shift left — needs the hire. Mirror on offboarding: disconnect cleanly so their next shop isn't blocked.</div>`},
+ hrweek:{tag:'Phase 3C · first week',title:'First-week HR + compliance',body:`<div class="sop-step"><div class="sn">•</div><div><b>I-9 §2</b><small>within 3 business days</small></div></div><div class="sop-step"><div class="sn">•</div><div><b>W-4 · direct deposit · withholding</b></div></div><div class="sop-step"><div class="sn">•</div><div><b>Benefits / retirement elections · handbook ack</b></div></div><div class="sop-step"><div class="sn">•</div><div><b>Annual compliance training</b></div></div><div class="sop-done">The paperwork that is NOT pre-hire — happens once they're an employee.</div>`},
+};
+const COLORS=['#6366f1','#8b5cf6','#14b8a6','#0ea5e9','#f59e0b','#10b981','#f43f5e','#64748b'];
+function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function colorFor(n){let s=0;for(const c of n)s+=c.charCodeAt(0);return COLORS[s%COLORS.length]}
+//--- date helpers (real)
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function iso(d){return d.toISOString().slice(0,10)}
+function parse(s){const d=new Date(s+'T00:00:00');return d}
+function daysFromNow(s){return Math.round((parse(s)-today())/86400000)}
+function relDue(s){const n=daysFromNow(s);if(n===0)return'today';if(n>0)return'in '+n+'d';return Math.abs(n)+'d ago'}
+//--- engine
+function genTasks(track,startISO){
+  const start=parse(startISO);let id=0;
+  return TPL.filter(t=>t.tr.includes(track)).map(t=>({
+    id:'t'+(id++),phase:t.ph,title:t.title,owner:t.owner,off:t.off,ess:t.ess,sop:t.sop||null,
+    due:iso(addDays(start,t.off)),done:false,blocked:false
+  }));
+}
+function phasesFor(track){return track==='ops'?PHASES_OPS:PHASES_REL}
+function progress(c){const d=c.tasks.filter(t=>t.done).length;return{done:d,total:c.tasks.length,pct:c.tasks.length?Math.round(d/c.tasks.length*100):0}}
+function currentPhase(c){const t=c.tasks.find(x=>!x.done);return t?t.phase:'Complete'}
+function isOverdue(t){return !t.done&&!t.blocked&&daysFromNow(t.due)<0}
+function attention(c){return c.tasks.some(t=>t.blocked||isOverdue(t))}
+function trackPill(tr){return tr==='exec'?'<span class="pill p-exec">Executive</span>':tr==='sales'?'<span class="pill p-sales">Sales</span>':'<span class="pill p-ops">Ops</span>'}
+//=================== STATE ===================
+let state,route='dash',cand=null;
+function save(){localStorage.setItem('runway_v2',JSON.stringify(state))}
+function load(){try{return JSON.parse(localStorage.getItem('runway_v2'))}catch(e){return null}}
+function seed(){
+  function mk(name,role,track,startOffset,svOffset,blockGov){
+    const start=iso(addDays(today(),startOffset));
+    const c={id:'c'+Math.random().toString(36).slice(2,8),name,role,track,start,
+      sv:svOffset!=null?iso(addDays(today(),svOffset)):null,
+      fields:{cell:'(847) 555-01'+Math.floor(10+Math.random()*89),email:name.split(' ')[0].toLowerCase()+'@gmail.com',nmls:track==='ops'?'—':String(1000000+Math.floor(Math.random()*99999)),mix:track==='ops'?'—':'Conv · GNMA · Jumbo · NQM',avgLoan:track==='ops'?'—':'$485K'},
+      about:['Italian food','Old-fashioned','Bulls','Golf'],issues:[],tasks:genTasks(track,start)};
+    // seed done = due in the past
+    c.tasks.forEach(t=>{if(daysFromNow(t.due)<0)t.done=true;});
+    if(blockGov){const g=c.tasks.find(t=>t.sop==='license');if(g){g.done=false;g.blocked=true;}}
+    return c;
+  }
+  return {cands:[
+    mk('Marcus Webb','Sr. Loan Officer','sales',18,-20),
+    mk('Luis Ortega','Loan Officer','sales',-6,-30,true),
+    mk('Priya Shah','Branch Leader','exec',26,2),
+    mk('Dana Cole','Processor','ops',21,null),
+    mk('Sam Reed','Closer','ops',14,null),
+  ]};
+}
+state=load();if(!state||!state.cands||!state.cands.length){state=seed();save();}
+cand=state.cands[0].id;
+function getCand(id){return state.cands.find(c=>c.id===id)}
+function resetDemo(){if(confirm('Reset to demo data? Your changes will be cleared.')){state=seed();cand=state.cands[0].id;save();render();}}
+//=================== ACTIONS ===================
+function toggleTask(cid,tid){const c=getCand(cid),t=c.tasks.find(x=>x.id===tid);if(t.blocked){t.blocked=false;}else{t.done=!t.done;}save();render();}
+function setCand(id){cand=id;if(['record','huddle','portal'].includes(route))render();}
+function addCandidate(){
+  const name=document.getElementById('f_name').value.trim();if(!name){alert('Name required');return;}
+  const role=document.getElementById('f_role').value.trim()||'New hire';
+  const track=document.getElementById('f_track').value;
+  const start=document.getElementById('f_start').value||iso(addDays(today(),21));
+  const sv=document.getElementById('f_sv').value||null;
+  const c={id:'c'+Math.random().toString(36).slice(2,8),name,role,track,start,sv,
+    fields:{cell:'',email:'',nmls:track==='ops'?'—':'',mix:document.getElementById('f_mix').value.trim()||(track==='ops'?'—':''),avgLoan:document.getElementById('f_avg').value.trim()||(track==='ops'?'—':'')},about:[],issues:[],tasks:genTasks(track,start)};
+  state.cands.unshift(c);cand=c.id;save();closeModal();route='record';setNav();render();
+}
+function addTaskTo(cid){const c=getCand(cid);const v=document.getElementById('newtask_'+cid);const title=(v.value||'').trim();if(!title)return;
+  c.tasks.push({id:'t'+Math.random().toString(36).slice(2,7),phase:currentPhase(c)==='Complete'?'Maintenance':currentPhase(c),title,owner:'—',off:0,ess:false,sop:null,due:iso(today()),done:false,blocked:false});save();render();}
+function addIssue(cid){const c=getCand(cid);const v=document.getElementById('newissue');const text=(v.value||'').trim();if(!text)return;c.issues.unshift({text,fixed:false,sop:false});save();render();}
+function issueAct(cid,i,k){const c=getCand(cid);c.issues[i][k]=true;save();render();}
+//=================== SOP DRAWER ===================
+function openSOP(id){const s=SOPS[id];if(!s)return;document.getElementById('drtag').textContent=s.tag;document.getElementById('drtitle').textContent=s.title;document.getElementById('drbody').innerHTML=s.body;document.getElementById('scrim').classList.add('open');document.getElementById('drawer').classList.add('open');}
+function closeSOP(){document.getElementById('scrim').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSOP();closeModal();}});
+//=================== MODALS ===================
+function openAdd(){document.getElementById('modal').innerHTML=`<div class="modal"><h3>Add candidate</h3><div class="mbody"><label>Full name</label><input id="f_name" placeholder="Jane Smith"><label>Role / title</label><input id="f_role" placeholder="Loan Officer"><label>Track</label><select id="f_track"><option value="sales">Sales / Producer</option><option value="exec">Executive</option><option value="ops">Ops / Support</option></select><label>Product mix (optional)</label><input id="f_mix" placeholder="Conv · GNMA · Jumbo · NQM · Other"><label>Avg loan amount (optional)</label><input id="f_avg" placeholder="$485K"><label>Start date (Day 1)</label><input id="f_start" type="date" value="${iso(addDays(today(),21))}"><label>Site-visit date (sales/exec, optional)</label><input id="f_sv" type="date"></div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="addCandidate()">Create + generate checklist</button></div></div>`;document.getElementById('modal').classList.add('open');}
+function esc(s){return String(s||'').replace(/"/g,'&quot;')}
+function openEdit(cid){const c=getCand(cid);document.getElementById('modal').innerHTML=`<div class="modal"><h3>Edit ${c.name}</h3><div class="mbody">
+<label>Full name</label><input id="e_name" value="${esc(c.name)}">
+<label>Role / title</label><input id="e_role" value="${esc(c.role)}">
+<label>Cell</label><input id="e_cell" value="${esc(c.fields.cell)}">
+<label>Email</label><input id="e_email" value="${esc(c.fields.email)}">
+<label>NMLS</label><input id="e_nmls" value="${esc(c.fields.nmls)}">
+<label>Product mix (Conv / GNMA / Jumbo / NQM / Other)</label><input id="e_mix" value="${esc(c.fields.mix)}">
+<label>Average loan amount</label><input id="e_avg" value="${esc(c.fields.avgLoan)}">
+<label>Start date (Day 1) — changing this recomputes every due date</label><input id="e_start" type="date" value="${c.start}">
+<label>Site-visit date</label><input id="e_sv" type="date" value="${c.sv||''}">
+<label>All About You (comma-separated)</label><input id="e_about" value="${esc((c.about||[]).join(', '))}">
+</div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="saveEdit('${cid}')">Save changes</button></div></div>`;document.getElementById('modal').classList.add('open');}
+function saveEdit(cid){const c=getCand(cid);const g=id=>document.getElementById(id).value;
+  c.name=g('e_name').trim()||c.name;c.role=g('e_role').trim();
+  c.fields.cell=g('e_cell').trim();c.fields.email=g('e_email').trim();c.fields.nmls=g('e_nmls').trim()||'—';
+  c.fields.mix=g('e_mix').trim()||'—';c.fields.avgLoan=g('e_avg').trim()||'—';
+  const ns=g('e_start');if(ns&&ns!==c.start){c.start=ns;c.tasks.forEach(t=>{t.due=iso(addDays(parse(c.start),t.off))});}
+  c.sv=g('e_sv')||null;c.about=g('e_about').split(',').map(x=>x.trim()).filter(Boolean);
+  save();closeModal();render();}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.getElementById('modal').innerHTML='';}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+//=================== RENDER ===================
+const TITLES={dash:['Dashboard','Live cohort — generated from real data'],pipeline:['Pipeline','Every candidate in their current phase'],tasks:['Tasks','Filter by owner; check off — it saves'],record:['Candidate','Record · checklist · the SOP behind every task'],huddle:['Onboarding Huddle','Fix live · capture · improve'],portal:['Recruit Portal','What the candidate sees'],sops:['SOP Library','Every procedure']};
+function setNav(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===route));document.getElementById('vtitle').textContent=TITLES[route][0];document.getElementById('vcrumb').textContent=TITLES[route][1];}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{route=b.dataset.v;setNav();render();}));
+function candPicker(){const sel=document.getElementById('candpick');const show=['record','huddle','portal'].includes(route);sel.style.display=show?'':'none';if(show){sel.innerHTML=state.cands.map(c=>`<option value="${c.id}" ${c.id===cand?'selected':''}>${c.name} · ${c.role}</option>`).join('');}}
+function avatar(name,sz){sz=sz||34;return `<div class="ava" style="width:${sz}px;height:${sz}px;font-size:${sz/2.7}px;background:${colorFor(name)}">${initials(name)}</div>`}
+function statusPill(c){if(c.tasks.some(t=>t.blocked))return'<span class="pill p-risk"><span class="dot" style="background:var(--rose)"></span>Blocked</span>';if(c.tasks.some(t=>isOverdue(t)))return'<span class="pill p-wait"><span class="dot" style="background:var(--amber)"></span>Overdue</span>';return'<span class="pill p-ok"><span class="dot" style="background:var(--emerald)"></span>On track</span>'}
+
+function render(){candPicker();const v=document.getElementById('view');
+  if(route==='dash')v.innerHTML=renderDash();
+  else if(route==='pipeline')v.innerHTML=renderPipeline();
+  else if(route==='tasks')v.innerHTML=renderTasks();
+  else if(route==='record')v.innerHTML=renderRecord();
+  else if(route==='huddle')v.innerHTML=renderHuddle();
+  else if(route==='portal')v.innerHTML=renderPortal();
+  else if(route==='sops')v.innerHTML=renderSOPs();
+}
+function renderDash(){
+  const cs=state.cands;const active=cs.length;
+  const need=cs.filter(attention).length;const ok=active-need;
+  const avg=active?Math.round(cs.reduce((s,c)=>s+progress(c).pct,0)/active):0;
+  const future=cs.filter(c=>daysFromNow(c.start)>=0).sort((a,b)=>daysFromNow(a.start)-daysFromNow(b.start))[0];
+  const rows=cs.map(c=>`<tr class="rowlink" onclick="cand='${c.id}';route='record';setNav();render()"><td><div class="who">${avatar(c.name)}<div><b>${c.name}</b><small>${c.role}</small></div></div></td><td>${trackPill(c.track)}</td><td>${currentPhase(c)}</td><td style="min-width:120px"><div class="bar" style="margin-bottom:4px"><i style="width:${progress(c).pct}%"></i></div><small style="color:var(--mut);font-size:11px">${progress(c).done}/${progress(c).total} · ${progress(c).pct}%</small></td><td>${statusPill(c)}</td></tr>`).join('');
+  const att=cs.filter(attention).flatMap(c=>c.tasks.filter(t=>t.blocked||isOverdue(t)).map(t=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw"><b>${c.name}</b> — ${t.title} <small>${t.blocked?'blocked':'overdue '+relDue(t.due)} · ${t.owner}</small></div></div>`)).join('')||'<div class="empty">Nothing needs attention 🎉</div>';
+  return `<div class="grid kpis" style="margin-bottom:18px">
+    <div class="card kpi"><div class="v">${active}</div><div class="k">Active candidates</div></div>
+    <div class="card kpi"><div class="v" style="color:var(--emerald)">${ok}</div><div class="k">On track</div></div>
+    <div class="card kpi"><div class="v" style="color:${need?'var(--rose)':'var(--emerald)'}">${need}</div><div class="k">Need attention</div></div>
+    <div class="card kpi"><div class="v">${avg}%</div><div class="k">Avg progress</div></div>
+    <div class="card kpi"><div class="v">${future?relDue(future.start):'—'}</div><div class="k">Next Day 1${future?' · '+future.name.split(' ')[0]:''}</div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1.5fr 1fr;align-items:start">
+    <div class="card pad"><h2 class="sec">Active candidates</h2><table><thead><tr><th>Candidate</th><th>Track</th><th>Phase</th><th>Progress</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="card pad"><h2 class="sec">Needs attention</h2>${att}</div>
+  </div>`;
+}
+function renderPipeline(){
+  const c0=state.cands;
+  const lanes=[...new Set([...PHASES_REL,...PHASES_OPS])];
+  // build columns by phase label union, plus screen for ops
+  const order=['Site Visit','Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance','Complete'];
+  const body=order.map(ph=>{const inLane=c0.filter(c=>currentPhase(c)===ph);if(!inLane.length&&!['Site Visit','Offer / BI','Pre-boarding','Day 1 → 30'].includes(ph))return'';
+    return `<div class="lane"><h4>${ph} <span>${inLane.length}</span></h4>${inLane.map(c=>`<div class="ccard ${c.track}" onclick="cand='${c.id}';route='record';setNav();render()"><b>${c.name}</b><div class="cm">${c.role} · ${progress(c).pct}%${c.tasks.some(t=>t.blocked)?' · ⚠':''}</div></div>`).join('')||'<div style="font-size:11px;color:var(--mut);text-align:center;padding:8px">—</div>'}</div>`;}).join('');
+  return `<p style="color:var(--ink2);max-width:760px;margin:0 0 16px">Every candidate sits in their <b>current phase</b> (computed from their first unfinished task). Click a card to open the record. Ops candidates flow through <b>Screen & Interview</b> instead of Site Visit.</p><div class="board">${body}</div>`;
+}
+function renderTasks(){
+  const owners=[...new Set(state.cands.flatMap(c=>c.tasks.map(t=>t.owner)))].sort();
+  const sel=window._owner||'All';
+  let all=[];state.cands.forEach(c=>c.tasks.forEach(t=>{if(sel==='All'||t.owner===sel)all.push({c,t})}));
+  all.sort((a,b)=>(a.t.done-b.t.done)||(daysFromNow(a.t.due)-daysFromNow(b.t.due)));
+  const openCount=all.filter(x=>!x.t.done).length;
+  const rows=all.map(({c,t})=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw ${t.done?'d':''}"><b>${t.title}</b><small>${c.name} · ${t.owner} · due ${relDue(t.due)}${t.blocked?' · blocked':''}</small></div>${t.ess?'<span class="tag ess">Ess</span>':'<span class="tag enh">Enh</span>'}${t.sop?`<span class="openhint" onclick="openSOP('${t.sop}')">Steps ›</span>`:''}</div>`).join('')||'<div class="empty">No tasks for this owner.</div>';
+  const opts=['All',...owners].map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');
+  return `<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><label style="font-size:12px;font-weight:700;color:var(--ink2)">Owner</label><select onchange="window._owner=this.value;render()" style="border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit">${opts}</select><span style="color:var(--mut);font-size:12.5px">${openCount} open · done shown struck-through below — click ✓ to undo · saves instantly</span></div><div class="card pad">${rows}</div>`;
+}
+function renderRecord(){
+  const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
+  const pr=progress(c);const view=window._recv||'list';
+  const phs=phasesFor(c.track);
+  const checklist=phs.map(ph=>{const ts=c.tasks.filter(t=>t.phase===ph);if(!ts.length)return'';const sop=ts.find(t=>t.sop);
+    return `<div class="grp-h">${ph}${sop?` <span class="openhint" style="margin-left:8px" onclick="openSOP('${sop.sop}')">SOP ›</span>`:''}</div>`+ts.map(t=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw ${t.done?'d':''}">${t.title}<small>${t.owner} · due ${relDue(t.due)}${t.blocked?' · ⚠ blocked (waiting-external)':''}</small></div>${t.sop?`<span class="openhint" onclick="openSOP('${t.sop}')">Steps ›</span>`:''}</div>`).join('');}).join('');
+  const govNote=c.track==='ops'?'':'<div class="lock"><span>🔒</span> SSN · DOB · home address — <b>HR-only</b> · touch the BI submit only</div>';
+  return `<div class="card pad"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">${avatar(c.name,60)}<div><h2 style="margin:0;font-size:23px">${c.name}</h2><div style="color:var(--mut);font-size:13.5px;margin-top:3px">${trackPill(c.track)} · ${c.role} · <b style="color:var(--ink)">${currentPhase(c)}</b></div></div><div style="margin-left:auto;display:flex;gap:12px;align-items:center"><button class="btn ghost" onclick="openEdit('${c.id}')">✎ Edit</button><div style="text-align:center;background:linear-gradient(135deg,var(--nav),var(--nav2));color:#fff;border-radius:14px;padding:12px 22px"><div style="font-size:24px;font-weight:800;line-height:1">${daysFromNow(c.start)>=0?daysFromNow(c.start):'—'}</div><div style="font-size:11px;color:#cdb87a;margin-top:4px">days to Day 1</div></div></div></div></div>
+  <div class="grid" style="grid-template-columns:320px 1fr;gap:18px;margin-top:18px;align-items:start">
+    <div class="card pad"><h2 class="sec">Record</h2><div class="field"><span class="fl">Cell</span><span class="fv">${c.fields.cell||'—'}</span></div><div class="field"><span class="fl">Email</span><span class="fv">${c.fields.email||'—'}</span></div><div class="field"><span class="fl">NMLS</span><span class="fv">${c.fields.nmls||'—'}</span></div><div class="field"><span class="fl">Product mix</span><span class="fv">${c.fields.mix||'—'}</span></div><div class="field"><span class="fl">Avg loan amount</span><span class="fv">${c.fields.avgLoan||'—'}</span></div><div class="field"><span class="fl">Start date</span><span class="fv">${c.start}</span></div>${govNote}<div class="grp-h" style="margin-top:14px">All About You</div>${c.about.length?c.about.map(a=>`<span class="pill p-sales" style="margin:2px 3px 2px 0">${a}</span>`).join(''):'<small style="color:var(--mut)">captured Day 1</small>'}</div>
+    <div><div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><div class="seg"><button class="${view==='list'?'on':''}" onclick="window._recv='list';render()">✓ Checklist</button><button class="${view==='phase'?'on':''}" onclick="window._recv='phase';render()">Progress</button></div><span style="margin-left:auto;font-size:12.5px;font-weight:800;color:var(--ink2)">${pr.done}/${pr.total} · ${pr.pct}%</span></div><div class="bar" style="margin-bottom:16px"><i style="width:${pr.pct}%"></i></div>
+    ${view==='phase'?phs.map(ph=>{const ts=c.tasks.filter(t=>t.phase===ph);if(!ts.length)return'';const d=ts.filter(t=>t.done).length;return `<div class="card pad" style="margin-bottom:10px"><div style="display:flex"><b>${ph}</b><span style="margin-left:auto;color:var(--mut);font-size:12.5px">${d}/${ts.length}</span></div><div class="bar" style="margin-top:8px"><i style="width:${Math.round(d/ts.length*100)}%"></i></div></div>`}).join(''):`<div class="card pad">${checklist}<div class="addrow"><input id="newtask_${c.id}" placeholder="Add a task we didn't think of…" onkeydown="if(event.key==='Enter')addTaskTo('${c.id}')"><button class="btn pri" onclick="addTaskTo('${c.id}')">+ Add</button></div></div>`}
+    </div></div>`;
+}
+function renderHuddle(){
+  const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
+  const owners=[...new Set(c.tasks.map(t=>t.owner))];
+  const chips=owners.slice(0,8).map(o=>`<span class="pill p-sales" style="background:var(--bg);color:var(--ink2)">${o}</span>`).join(' ');
+  const issues=c.issues.length?c.issues.map((iss,i)=>`<div class="task" style="align-items:flex-start"><div class="chk ${iss.fixed?'done':'blk'}" style="cursor:default;margin-top:2px">${iss.fixed?'✓':'!'}</div><div class="tw"><b>${iss.text}</b><div style="margin-top:7px;display:flex;gap:7px;flex-wrap:wrap"><span class="openhint" style="background:${iss.fixed?'#065f46':'var(--emerald-bg)'};color:${iss.fixed?'#fff':'#059669'}" onclick="issueAct('${c.id}',${i},'fixed')">${iss.fixed?'✓ Fixed':'Fix now'}</span><span class="openhint" style="background:${iss.sop?'#5b21b6':'var(--violet-bg)'};color:${iss.sop?'#fff':'#7c3aed'}" onclick="issueAct('${c.id}',${i},'sop')">${iss.sop?'✓ SOP updated':'Improve SOP'}</span></div></div></div>`).join(''):'<div class="empty">No issues logged yet — add what surfaces in the huddle.</div>';
+  return `<div class="grid" style="grid-template-columns:1.2fr 1fr;gap:18px;align-items:start">
+    <div class="card pad"><h2 class="sec">${c.name} · onboarding huddle</h2><p style="font-size:12.5px;color:var(--ink2);margin:0 0 8px"><b>Auto-built invite</b> — everyone who touched the onboarding:</p><div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div><p style="font-size:12px;color:var(--mut);margin-top:12px">Cadence: tapering — adaptive to need + how well we're preventing pain.</p></div>
+    <div class="card pad"><h2 class="sec">Continuous improvement</h2><p style="font-size:13px;color:var(--ink2);margin:0">${c.issues.length} issue(s) this onboarding · ${c.issues.filter(i=>i.sop).length} fed into SOP improvements. Each one closes the gap for the next hire.</p></div>
+  </div>
+  <div class="card pad" style="margin-top:18px"><h2 class="sec">What wasn't perfect → fix now + improve the SOP</h2>${issues}<div class="addrow"><input id="newissue" placeholder="Add an issue that surfaced…" onkeydown="if(event.key==='Enter')addIssue('${c.id}')"><button class="btn pri" onclick="addIssue('${c.id}')">+ Add issue</button></div></div>`;
+}
+function renderPortal(){
+  const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
+  const dd=daysFromNow(c.start);const pct=progress(c).pct;const fn=c.name.split(' ')[0];
+  const team=[
+    ['Your recruiter','Taylor Brooks','tbrooks@goapmc.com','(847) 555-0101'],
+    ['Your manager','Mike Morales','mmorales@goapmc.com','(847) 555-0114'],
+    ['Your mentor','Jenna Liu','jliu@goapmc.com','(847) 555-0132'],
+    ['People Ops (HR)','Chelsea Reyna','creyna@goapmc.com','(847) 555-0150'],
+    ['IT help desk','APMC IT','ithelp@goapmc.com','(847) 555-0199'],
+  ];
+  const teamRows=team.map(([role,name,email,phone])=>`<tr><td><div class="who">${avatar(name,34)}<div><b>${name}</b><small>${role}</small></div></div></td><td style="text-align:right"><a href="mailto:${email}" style="color:var(--ink2);font-size:12.5px;text-decoration:none">${email}</a><div style="color:var(--mut);font-size:12px">${phone}</div></td></tr>`).join('');
+  const order=['Site Visit','Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance','Complete'];
+  const idx=order.indexOf(currentPhase(c));const pre=order.indexOf('Pre-boarding');const d1=order.indexOf('Day 1 → 30');
+  function mi(done,cur){return done?['✓','var(--emerald)','var(--emerald-bg)',false]:cur?['●','#8a6510','var(--indigo-bg)',false]:['→','var(--mut)','#eef0f5',true]}
+  const steps=[
+    ['You said yes — welcome aboard!',mi(idx>order.indexOf('Offer / BI'),false)],
+    ['All clear to get started',mi(idx>=pre,idx===order.indexOf('Offer / BI'))],
+    ["We're getting everything set up for you",mi(idx>pre,idx===pre)],
+    ['Your gear & accounts, ready before you arrive',mi(idx>pre,false)],
+    ["Day 1 — your team can't wait"+(dd>=0?` · ${c.start}`:''),mi(idx>d1,idx===d1)],
+    ["Your first 90 days — we'll check in often",mi(false,idx>=order.indexOf('Maintenance'))],
+  ];
+  const journey=steps.map(([label,[ic,col,bg,muted]])=>`<div style="display:flex;gap:13px;padding:11px 0;border-bottom:1px solid #f1f3f7;align-items:center"><div style="width:28px;height:28px;border-radius:50%;background:${bg};color:${col};display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 auto">${ic}</div><div style="font-size:13.5px;${muted?'color:var(--mut)':''}">${label}</div></div>`).join('');
+  return `<div style="background:linear-gradient(135deg,#20212b,#33354a 55%,#fdbe33 165%);border-radius:22px;padding:38px 40px;color:#fff">
+    <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fde4a8;font-weight:700">Welcome to American Portfolio Mortgage</div>
+    <h2 style="font-size:32px;margin:10px 0 8px;letter-spacing:-.02em">Hey ${fn} — we can't wait. 👋</h2>
+    <p style="color:#e7e9f3;margin:0;max-width:580px">Your first day is <b>${c.start}</b>${dd>=0?` — just ${dd} days away`:''}. We're already getting everything ready so on Day 1 you can just do what you do best.</p></div>
+  <div class="grid" style="grid-template-columns:1.15fr 1fr;gap:18px;margin-top:18px;align-items:start">
+    <div class="card pad"><h2 class="sec">Your APMC team</h2><table><tbody>${teamRows}</tbody></table><p style="color:var(--mut);font-size:11.5px;margin:12px 0 0">Anything you need before Day 1 — reach out to any of us, anytime.</p></div>
+    <div class="card pad"><div style="display:flex;align-items:center;margin-bottom:6px"><h2 class="sec" style="margin:0">What's ahead</h2><span style="margin-left:auto;font-size:12px;font-weight:800;color:#8a6510">${pct}% ready</span></div><div class="bar" style="margin-bottom:14px"><i style="width:${pct}%"></i></div>${journey}</div>
+  </div>`;
+}
+function renderSOPs(){
+  return `<p style="color:var(--ink2);max-width:760px;margin:0 0 18px">Every procedure lives here and is wired into the matching task. Click to open.</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(258px,1fr))">${Object.keys(SOPS).map(k=>`<div class="card pad" style="cursor:pointer" onclick="openSOP('${k}')"><div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--indigo)">${SOPS[k].tag}</div><h3 style="margin:8px 0 8px;font-size:15px">${SOPS[k].title}</h3><span class="openhint">Open ›</span></div>`).join('')}</div>`;
+}
+setNav();render();
+</script>
+</body>
+</html>
