@@ -80,13 +80,34 @@
   .sop-done{background:var(--emerald-bg);border:1px solid #bbf0db;border-radius:10px;padding:11px 14px;font-size:12.5px;color:#065f46;margin-top:14px;font-weight:600}
   .openhint{font-size:11px;font-weight:800;color:#8a6510;cursor:pointer;background:var(--indigo-bg);padding:3px 9px;border-radius:7px}
   .modal-scrim{position:fixed;inset:0;background:rgba(10,15,25,.5);display:none;align-items:flex-start;justify-content:center;z-index:110;padding:60px 20px;overflow-y:auto}.modal-scrim.open{display:flex}
-  .modal{background:#fff;border-radius:var(--r);width:min(520px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal{background:#fff;border-radius:var(--r);width:min(560px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3)}
   .modal h3{margin:0;padding:20px 24px;border-bottom:1px solid var(--line);font-size:18px}
   .modal .mbody{padding:20px 24px}.modal label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);margin:14px 0 5px}.modal label:first-child{margin-top:0}
-  .modal input,.modal select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;font-size:14px}
+  .modal input,.modal select,.modal textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;font-size:14px}
+  .modal textarea{resize:vertical;min-height:54px}
   .modal .mfoot{padding:16px 24px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+  .m2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.m2 label{margin-top:0}.m2>div{margin-top:14px}.m2>div:first-child,.m2>div:nth-child(2){margin-top:0}
+  .mixrow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.mixrow input{text-align:center}
   .empty{text-align:center;color:var(--mut);padding:40px;font-size:14px}
   .addrow{display:flex;gap:9px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}.addrow input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font:inherit;font-size:13px}
+  .lvl{font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px;background:var(--indigo-bg);color:#8a6510;white-space:nowrap}
+  .lvl.std{background:var(--emerald-bg);color:#059669}
+  .acc-grp{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}
+  .acc-grp .gh{display:flex;align-items:center;gap:9px;font-weight:800;font-size:12.5px;color:#fff;padding:9px 15px}.acc-grp .gh .gc{margin-left:auto;font-weight:600;font-size:11.5px;opacity:.85}
+  .acc-item{display:flex;align-items:center;gap:11px;padding:9px 15px;border-bottom:1px solid #f1f3f7;font-size:13px}.acc-item:last-child{border:none}
+  .acc-item .an{flex:1}.acc-item .an small{display:block;color:var(--mut);font-size:11px}
+  .mixbars{display:flex;height:9px;border-radius:6px;overflow:hidden;margin:6px 0 3px;background:#eef0f5}
+  .mixbars i{display:block;height:100%}
+  .favgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  .swim{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;min-width:640px}
+  .swim th{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);font-weight:800;padding:8px 7px;border-bottom:2px solid var(--line);white-space:nowrap}
+  .swim td{vertical-align:top;padding:8px 7px;border-bottom:1px solid #f1f3f7;border-left:1px solid #f6f7fb}
+  .swim td.lane{white-space:nowrap;font-weight:700;font-size:11.5px;border-left:0;padding-right:14px;color:var(--ink2)}
+  .lswatch{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  .lchip{display:block;width:100%;text-align:left;border:0;border-left:3px solid;border-radius:7px;padding:6px 9px;margin-bottom:6px;font:inherit;font-size:11px;font-weight:600;color:var(--ink);cursor:pointer;line-height:1.3}
+  .lchip:last-child{margin-bottom:0}.lchip:hover{filter:brightness(.97)}
+  .lchip .lc-meta{display:block;font-size:9.5px;font-weight:700;color:var(--mut);margin-top:2px}
+  .lchip.done{text-decoration:line-through;opacity:.5}
 </style>
 </head>
 <body>
@@ -100,15 +121,16 @@
       <div class="lbl">Operate</div>
       <button class="active" data-v="dash"><span class="ic">▦</span> Dashboard</button>
       <button data-v="pipeline"><span class="ic">⛢</span> Pipeline</button>
-      <button data-v="tasks"><span class="ic">✓</span> Tasks</button>
+      <button data-v="tasks"><span class="ic">✓</span> Work Queue</button>
       <button data-v="record"><span class="ic">▤</span> Candidate</button>
-      <button data-v="huddle"><span class="ic">◎</span> Huddle</button>
       <button data-v="portal"><span class="ic">✦</span> Recruit Portal</button>
       <div class="lbl">Configure</div>
+      <button data-v="forms"><span class="ic">▢</span> Forms</button>
       <button data-v="sops"><span class="ic">▣</span> SOP Library</button>
+      <button data-v="admin"><span class="ic">⚙</span> Admin · Matrix</button>
     </nav>
-    <button class="btn pri" style="margin-top:14px;width:100%" onclick="openAdd()">+ Add candidate</button>
-    <div class="foot"><b style="color:#8ea0c4">Functional build · saves to this browser</b><br>Real data + task engine. Add candidates, check things off — it persists.<br><button onclick="resetDemo()">Reset to demo data</button></div>
+    <button class="btn pri" style="margin-top:14px;width:100%" onclick="openAdd()">+ New Hire Request</button>
+    <div class="foot"><b style="color:#8ea0c4">Functional build · saves to this browser</b><br>Real data + task engine + role-based Access Matrix. It persists.<br><button onclick="resetDemo()">Reset to demo data</button></div>
   </aside>
   <div class="main">
     <div class="topbar">
@@ -123,39 +145,127 @@
 <div class="modal-scrim" id="modal"></div>
 
 <script>
-//=================== DATA MODEL + ENGINE ===================
+//=================== ROLES + ACCESS MATRIX (from 05_Access_Matrix) ===================
+// Column order for every value array below:
+const RC=['BM','LO','LOA','LP1','DISC','LP2','LP3','CL','FN','UW','POST','BOPS','QC','MGR'];
+const ROLES=[
+ {c:'BM',n:'Branch Manager'},{c:'LO',n:'Loan Officer'},{c:'LOA',n:'LO Assistant'},
+ {c:'LP1',n:'Loan Partner I / Setup'},{c:'DISC',n:'Disclosure Desk'},{c:'LP2',n:'Loan Partner II'},
+ {c:'LP3',n:'Loan Partner III / Loan Mgr'},{c:'CL',n:'Closer'},{c:'FN',n:'Funder'},
+ {c:'UW',n:'Underwriter'},{c:'POST',n:'Post-Closing'},{c:'BOPS',n:'Branch Ops'},
+ {c:'QC',n:'Quality Control'},{c:'MGR',n:'Operations Manager'},
+];
+function liveRoles(){return (typeof state!=='undefined'&&state&&state.roles)?state.roles:ROLES}
+function roleName(c){const r=liveRoles().find(x=>x.c===c);return r?r.n:''}
+// reusable value patterns
+const CV=['OrgID','OrgID','OrgID','OrgID','All','OrgID','OrgID','All unless br. closer','All unless br. closer','All','All','OrgID','All','All'];
+const MI=['Quote','Quote','Quote','Quote','Quote','Quote','Cert','Cert','Cert','Cert','Cert','Cert','Cert','Cert'];
+const ENC=['OrgID / Name','Name only','OrgID / Name','OrgID / Name','All','OrgID / Name','OrgID / Name','All unless br. closer','All unless br. closer','All','All','OrgID','All','All'];
+const FB='CAIVRS · App/Processing', FU=FB+' · CHUMS · MRC · Nbhd Watch', FF=FB+' · CHUMS · MRC · NW · Claims · Premiums · Delinquent';
+const DL=['OrgID · All users · Managers · Sales · Ops','OrgID · All users · Sales','OrgID · All users · Sales','OrgID · All users · Sales · Ops · Processing','All users · Ops · Disclosure','OrgID · All users · Ops · Processing','OrgID · All users · Ops · Processing','All users · Ops · Closing','All users · Ops · Closing','All users · Ops · Underwriting','All users · Post-closing','OrgID · All users · Managers · Sales · Ops','All users · Underwriting · QC','All DLs'];
+const ACCESS=[
+ {o:'IT · Identity & Device',col:'#0ea5e9',rows:[
+   {s:'Workstation · Office · Okta SSO · Entra/M365 · Teams · RingCentral · Adobe',base:true},
+   {s:'Distribution lists (Entra dynamic groups)',v:DL},
+   {s:'Teams team assignment',v:['OrgID','OrgID','OrgID','OrgID','Disclosure','OrgID','OrgID','—','—','—','Post-closing','OrgID','QC','—']},
+   {s:'eFax',v:['Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','Y']},
+   {s:'E-signature — Dropbox Sign',v:['Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','Y']},
+   {s:'SMS / MMS',v:['Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','N','Y']},
+ ]},
+ {o:'Mortgage Tech · Credit & Verifications',col:'#8b5cf6',rows:[
+   {s:'Credit — Xactus',v:CV},
+   {s:'Flood — ServiceLink',v:CV},
+   {s:'4506-C / Transcripts — Hulk · Tax Valet',v:CV},
+   {s:'SSA Verification — Xactus',v:CV},
+   {s:'Fraud — LoanSafe',v:CV},
+   {s:'UDN — Undisclosed Debt',v:CV},
+   {s:'Clear Capital',v:['OrgID','OrgID','OrgID','OrgID','—','OrgID','OrgID','—','—','Company','Company','OrgID','Company','Company']},
+   {s:'TWN — The Work Number (VOE/VOI)',v:['OrgID','OrgID','OrgID','OrgID','—','—','—','—','—','Company','Company','—','Company','Company']},
+   {s:'AccountChek — asset verification',v:['OrgID','OrgID','OrgID','OrgID','—','—','—','—','—','—','—','—','—','—']},
+   {s:'CPM — Condo Project Manager (Fannie)',v:['None','None','None','None','None','None','None','None','None','Y','None','N','None','Y']},
+ ]},
+ {o:'Mortgage Insurance',col:'#f59e0b',rows:[
+   {s:'MI — Enact · Radian · MGIC · Arch · Essent · National',v:MI,note:'Quote = pricing · Cert = ordering'},
+ ]},
+ {o:'Agency / Gov logins — licensing-gated (Day 1)',col:'#f43f5e',rows:[
+   {s:'FHA Connection (FHAC)',v:[FB,FB,FB,FB,FB,FB,FB,FB,FB,FU,FF,FB,FF,FF]},
+   {s:'WebLGY (VA) · USDA-GUS · DU · LPA · EarlyCheck · CU',base:true,note:'Day-1 · sponsorship-gated'},
+ ]},
+ {o:'Sales / Pricing',col:'#6366f1',rows:[
+   {s:'POS — Simple Nexus / nCino',v:['Org Manager','Name only','Name only','OrgID / Name','None','OrgID / Name','OrgID / Name','None','None','None','None','OrgID / Name','None','All']},
+   {s:'Optimal Blue (PPE)',v:['True Margins','Name only','Name only','None','None','OrgID / Name','OrgID / Name','None','None','None','None','OrgID / Name','None','All']},
+   {s:'CRM — Total Expert',v:['Opt-in (team)','Opt-in','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'MBS / QuoteLine (market data)',v:['Opt-in (team)','Opt-in','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'RETR (real-estate data)',v:['Opt-in','—','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'Sales tools (Homebot, etc.)',v:['Opt-in (team)','Opt-in','—','—','—','—','—','—','—','—','—','—','—','—']},
+ ]},
+ {o:'Marketing · Brand launch',col:'#e0a81e',rows:[
+   {s:'Professional headshots / photography',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'LO website / Valley landing page',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—'],note:'sponsorship-gated'},
+   {s:'Bio + production stats for site',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'Press release / hire announcement',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'Social media announcement (LinkedIn, etc.)',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'Homebot / co-branded marketing setup',v:['Y','Y','—','—','—','—','—','—','—','—','—','—','—','—']},
+   {s:'Business cards · email signature · name badge',v:['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],base:false},
+ ]},
+ {o:'Encompass (LOS) · Encompass Admin',col:'#64748b',rows:[
+   {s:'Encompass pipeline scope',v:ENC},
+   {s:'Clear conditions',v:['None','None','None','None','None','Prelim','UW','CL/FN','CL/FN/Delivery','All','All','UW','All','All']},
+   {s:'Reporting',v:ENC},
+ ]},
+ {o:'HR / Corp · Paylocity',col:'#10b981',rows:[
+   {s:'Payroll — Paylocity',v:['Org Manager','—','—','—','—','—','—','—','—','—','—','Org Manager','—','All']},
+   {s:'AMC — appraisal management',v:['Y','Y','Y','Y','Y','Y','Y','—','—','—','Y','Y','Y','Y']},
+   {s:'CompenSafe (comp) · Benefits — Paylocity',base:true,note:'Day-1'},
+ ]},
+];
+const NOACCESS=['—','','None','none','N'];
+function granted(v){return !NOACCESS.includes(v)}
+// convert the hardcoded default ACCESS (column arrays) into editable, role-keyed groups
+function buildDefaultMatrix(){
+  return ACCESS.map(g=>({o:g.o,col:g.col,rows:g.rows.map(r=>{
+    const vals={};if(r.v){RC.forEach((rc,i)=>{vals[rc]=r.v[i];});}
+    return {s:r.s,note:r.note||'',base:!!r.base,vals};
+  })}));
+}
+// reads the LIVE, editable matrix in state (not the const)
+function provList(rc){ // -> [{owner,col,items:[{key,sys,note,level,base}]}]
+  return (state.matrix||[]).map((g,gi)=>{
+    const items=[];
+    g.rows.forEach((row,ri)=>{
+      const lvl=row.base?'Standard':(row.vals?row.vals[rc]:'');
+      if(row.base||granted(lvl))items.push({key:gi+'.'+ri,sys:row.s,note:row.note||'',level:lvl,base:!!row.base});
+    });
+    return {owner:g.o,col:g.col,items};
+  }).filter(g=>g.items.length);
+}
+//=================== TASK ENGINE ===================
 const PHASES_REL=['Site Visit','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance'];
 const PHASES_OPS=['Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance'];
-// task template: {phase, ord, title, owner, off(days from start), ess, sop, tracks}
 const TPL=[
- // Site visit (exec/sales)
  {ph:'Site Visit',title:'Log candidate + production profile',owner:'Recruiter',off:-42,ess:true,sop:'site',tr:['exec','sales']},
  {ph:'Site Visit',title:'Travel intake + book flight / driver / hotel',owner:'Admin',off:-40,ess:true,sop:'site',tr:['exec','sales']},
  {ph:'Site Visit',title:'Welcome box + culture book',owner:'Admin',off:-39,ess:false,sop:'site',tr:['exec','sales']},
  {ph:'Site Visit',title:'Visit day — full run-of-show',owner:'All',off:-38,ess:true,sop:'site',tr:['exec','sales']},
  {ph:'Site Visit',title:'24h recap + ◆ move-forward decision',owner:'Leadership',off:-37,ess:true,tr:['exec','sales']},
- // Screen/interview (ops)
  {ph:'Screen & Interview',title:'Post JD + applicant funnel',owner:'Recruiter',off:-40,ess:true,tr:['ops']},
  {ph:'Screen & Interview',title:'Phone screen',owner:'Recruiter',off:-35,ess:true,tr:['ops']},
  {ph:'Screen & Interview',title:'Role-based skills assessment',owner:'Team Lead',off:-32,ess:true,tr:['ops']},
  {ph:'Screen & Interview',title:'Structured interview + ◆ decision',owner:'Hiring Mgr',off:-30,ess:true,tr:['ops']},
- // Offer / BI (all)
  {ph:'Offer / BI',title:'Send offer + technology agreement',owner:'HR',off:-28,ess:true,tr:['exec','sales','ops']},
  {ph:'Offer / BI',title:'Accepted · start date set',owner:'HR',off:-27,ess:true,tr:['exec','sales','ops']},
  {ph:'Offer / BI',title:'Order background investigation (same day)',owner:'HR',off:-27,ess:true,sop:'bi',tr:['exec','sales','ops']},
  {ph:'Offer / BI',title:'◆ BI cleared — gate',owner:'BRI',off:-23,ess:true,sop:'bi',tr:['exec','sales','ops']},
- // Pre-boarding
- {ph:'Pre-boarding',title:'Internal provisioning — M365 · Okta · phone · Encompass',owner:'IT',off:-21,ess:true,sop:'provision',tr:['exec','sales','ops']},
+ {ph:'Pre-boarding',title:'Provision access (role-based — see Access Setup)',owner:'IT',off:-21,ess:true,sop:'provision',tr:['exec','sales','ops']},
  {ph:'Pre-boarding',title:'Ship machine + culture book',owner:'IT',off:-21,ess:true,tr:['exec','sales','ops']},
  {ph:'Pre-boarding',title:'Verify all non-license logins working',owner:'IT',off:-10,ess:true,sop:'provision',tr:['exec','sales','ops']},
  {ph:'Pre-boarding',title:'Marketing build — landing page · social · press',owner:'Marketing',off:-20,ess:false,tr:['exec','sales']},
  {ph:'Pre-boarding',title:'Pre-boarding touchpoints (ramp cadence)',owner:'Recruiter',off:-28,ess:true,sop:'ramp',tr:['exec','sales']},
  {ph:'Pre-boarding',title:'Pre-Day-1 systems training (take-an-app ready)',owner:'Trainer',off:-7,ess:false,tr:['exec','sales']},
- // Day 1-30
  {ph:'Day 1 → 30',title:'NMLS transfer · FHAC / WebLGY / GUS',owner:'Licensing',off:0,ess:true,sop:'license',tr:['exec','sales']},
  {ph:'Day 1 → 30',title:'Valley landing page goes live',owner:'Marketing',off:0,ess:false,tr:['exec','sales']},
  {ph:'Day 1 → 30',title:'Day-1 welcome — desk · tour · team email',owner:'Supervisor',off:0,ess:true,tr:['exec','sales','ops']},
- {ph:'Day 1 → 30',title:'Capture "All About You"',owner:'HR',off:0,ess:false,tr:['exec','sales','ops']},
+ {ph:'Day 1 → 30',title:'Capture "All About You"',owner:'HR',off:0,ess:false,sop:'about',tr:['exec','sales','ops']},
  {ph:'Day 1 → 30',title:'First-week HR — I-9 · W-4 · handbook',owner:'HR',off:2,ess:true,sop:'hrweek',tr:['exec','sales','ops']},
  {ph:'Day 1 → 30',title:'Annual compliance training',owner:'Trainer',off:4,ess:true,sop:'hrweek',tr:['exec','sales','ops']},
  {ph:'Day 1 → 30',title:'Systems training — Encompass · CRM · POS',owner:'Trainer',off:1,ess:true,tr:['exec','sales','ops']},
@@ -163,30 +273,30 @@ const TPL=[
  {ph:'Day 1 → 30',title:'1st Friday — CEO/COO/C-suite BombBomb + gift',owner:'Leadership',off:4,ess:false,tr:['exec','sales']},
  {ph:'Day 1 → 30',title:'Onboarding huddle (tapering cadence)',owner:'Full group',off:2,ess:true,tr:['exec','sales','ops']},
  {ph:'Day 1 → 30',title:'Day-30 Training Survey #1',owner:'Trainer',off:30,ess:true,tr:['exec','sales','ops']},
- // Maintenance
  {ph:'Maintenance',title:'Day-60 check-in',owner:'Supervisor',off:60,ess:true,tr:['exec','sales','ops']},
  {ph:'Maintenance',title:'Day-90 review + Training Survey #2',owner:'Supervisor',off:90,ess:true,tr:['exec','sales','ops']},
- {ph:'Maintenance',title:'Quarterly recognition (from All About You)',owner:'Supervisor',off:90,ess:false,tr:['exec','sales','ops']},
+ {ph:'Maintenance',title:'Quarterly recognition (from All About You)',owner:'Supervisor',off:90,ess:false,sop:'about',tr:['exec','sales','ops']},
 ];
 const SOPS={
  site:{tag:'Phase 1 · Sales/Exec',title:'Site Visit — prep + run-of-show',body:`<div class="sop-step"><div class="sn">1</div><div><b>Intel & calendars</b><small>Production profile + favorites into the record; book the visit on every dept head's calendar, tailored to their book.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>Travel — book it</b><small>Flight (company card) · driver (share name/number) · hotel (&lt;2mi, exec suite, incidentals paid).</small></div></div><div class="sop-step"><div class="sn">3</div><div><b>Personalize + welcome box</b><small>Researched gift · cup/pen/notepad/culture book · signed leadership card in the car.</small></div></div><div class="sop-step"><div class="sn">4</div><div><b>Visit day</b><small>Red carpet · CNBC · signage → 11:00 UW · 1:00 Secondary · 2:00 Ops · 3:00 Tech · dinner.</small></div></div><div class="sop-done">✓ Done = 24h recap logged → Move-Forward gate.</div>`},
  bi:{tag:'Phase 2A · the gate',title:'Background Investigation (BRI · FCRA)',body:`<div class="sop-step"><div class="sn">1</div><div><b>Conditional, post-offer</b><small>Order the day they accept.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>FCRA disclosure + written auth</b></div></div><div class="sop-step"><div class="sn">3</div><div><b>Submit to BRI</b><small style="color:#7c3aed">SSN/DOB used HERE ONLY — never logged, never pushed elsewhere.</small></div></div><div class="sop-step"><div class="sn">4</div><div><b>Scope</b><small>Criminal · SSN trace · NMLS Consumer Access · LDP/SAM · license checks.</small></div></div><div class="sop-done">⛔ Nothing — tech, provisioning, marketing — goes out until this clears. ✓ Then 2B fires.</div>`},
- provision:{tag:'Phase 2B · all tracks',title:'Provision access — who sets up what',body:`<div class="sop-prov"><div class="ph" style="background:#10b981">HR · Paylocity</div><ul><li>HRIS · payroll · benefits · CompenSafe · BI · handbook/I-9</li></ul></div><div class="sop-prov"><div class="ph" style="background:#0ea5e9">IT — Identity & Device</div><ul><li>Laptop · Entra/M365 + Okta (auto via Paylocity→Entra) · Teams · RingCentral · DLs · Adobe · Dropbox Sign</li></ul></div><div class="sop-prov"><div class="ph" style="background:#8b5cf6">Mortgage Tech</div><ul><li>Xactus · ServiceLink · LoanSafe · DU/LPA/GUS · MI · Reggora</li></ul></div><div class="sop-prov"><div class="ph" style="background:#f59e0b">Pricing</div><ul><li>Optimal Blue · MBS/QuoteLine</li></ul></div><div class="sop-prov"><div class="ph" style="background:#6366f1">Sales/Marketing</div><ul><li>Simple Nexus POS · Total Expert · Valley · Homebot</li></ul></div><div class="sop-prov"><div class="ph" style="background:#64748b">Encompass Admin</div><ul><li>Persona · pipeline scope · clear-conditions · reporting</li></ul></div><div class="sop-done">✓ Every non-license login verified before Day 1 (shift-left).</div>`},
+ provision:{tag:'Phase 2B · all tracks',title:'Provision access — role-driven from the Access Matrix',body:`<div class="lock"><span>▥</span> <b>This is role-specific.</b> Open <b>Access Setup</b> for this candidate — the exact system set + access level (OrgID / Name / All, Quote vs Cert, clear-conditions scope) is driven by their <b>role</b>, not their track.</div><div class="sop-prov"><div class="ph" style="background:#0ea5e9">IT — Identity & Device</div><ul><li>Laptop · Entra/M365 + Okta (auto via Paylocity→Entra) · Teams · RingCentral · DLs · Adobe · Dropbox Sign</li></ul></div><div class="sop-prov"><div class="ph" style="background:#8b5cf6">Mortgage Tech</div><ul><li>Xactus · ServiceLink · LoanSafe · TWN · MI (Quote/Cert by role) · CPM</li></ul></div><div class="sop-prov"><div class="ph" style="background:#6366f1">Sales / Pricing</div><ul><li>Simple Nexus POS · Optimal Blue · Total Expert · MBS/QuoteLine · Homebot</li></ul></div><div class="sop-prov"><div class="ph" style="background:#e0a81e">Marketing — Brand launch (producing roles)</div><ul><li>Headshots · LO website / Valley page (gated) · bio + stats · press release · social announcement · business cards / signature</li></ul></div><div class="sop-prov"><div class="ph" style="background:#64748b">Encompass Admin</div><ul><li>Persona · pipeline scope · clear-conditions · reporting — per role column</li></ul></div><div class="sop-done">✓ Least privilege: grant the minimum the role requires. Every non-license login verified before Day 1 (shift-left).</div>`},
  ramp:{tag:'Phase 2B · engagement',title:'Pre-boarding touchpoint — Do / Discover / Capture',body:`<div class="sop-step"><div class="sn">1</div><div><b>Do</b><small>Advance the site/bio/press — gives a reason to connect.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>Discover</b><small>What's closing when you start? Who's coming? Concerns?</small></div></div><div class="sop-step"><div class="sn">3</div><div><b>Capture</b><small style="color:#7c3aed">Log it; if a problem-in-waiting, spawn a task. ("3 loans first week → Ops prep.")</small></div></div><div class="sop-done">KPI = problems-prevented, not schedule adherence. Cadence S−28 1/wk → daily week-of; compresses by runway tier.</div>`},
  license:{tag:'Phase 3A · Day 1',title:'NMLS transfer + government logins',body:`<div class="sop-step"><div class="sn">1</div><div><b>NMLS transfer / sponsorship</b></div></div><div class="sop-step"><div class="sn">2</div><div><b>FHAC · WebLGY · USDA/GUS</b></div></div><div class="sop-step"><div class="sn">3</div><div><b>Valley page live</b><small>unblocked by sponsorship</small></div></div><div class="lock"><span>⚠</span> <b>Blocker the system tracks:</b> prior employer hasn't disconnected them — task holds "waiting-external," auto-chases, re-checks until released.</div><div class="sop-done">Can't shift left — needs the hire. Mirror on offboarding: disconnect cleanly so their next shop isn't blocked.</div>`},
+ about:{tag:'Phase 3B · Day 1',title:'All About You — the durable engagement record',body:`<div class="sop-step"><div class="sn">1</div><div><b>New hire fills it by end of Day 1</b><small>Favorites, recognition preference, what matters to them, any concern.</small></div></div><div class="sop-step"><div class="sn">2</div><div><b>Stored on the durable PERSON record</b><small style="color:#7c3aed">Not the onboarding instance — it outlives onboarding and powers recognition for as long as they're here.</small></div></div><div class="sop-step"><div class="sn">3</div><div><b>Powers the recognition engine</b><small>Birthdays, anniversaries, "you matter" touches, quarterly gifts all read from here.</small></div></div><div class="sop-done">Keep it current — it's a workplace engagement tool, never a hiring input.</div>`},
  hrweek:{tag:'Phase 3C · first week',title:'First-week HR + compliance',body:`<div class="sop-step"><div class="sn">•</div><div><b>I-9 §2</b><small>within 3 business days</small></div></div><div class="sop-step"><div class="sn">•</div><div><b>W-4 · direct deposit · withholding</b></div></div><div class="sop-step"><div class="sn">•</div><div><b>Benefits / retirement elections · handbook ack</b></div></div><div class="sop-step"><div class="sn">•</div><div><b>Annual compliance training</b></div></div><div class="sop-done">The paperwork that is NOT pre-hire — happens once they're an employee.</div>`},
 };
 const COLORS=['#6366f1','#8b5cf6','#14b8a6','#0ea5e9','#f59e0b','#10b981','#f43f5e','#64748b'];
-function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
-function colorFor(n){let s=0;for(const c of n)s+=c.charCodeAt(0);return COLORS[s%COLORS.length]}
-//--- date helpers (real)
+function initials(n){return (n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function colorFor(n){let s=0;for(const c of (n||''))s+=c.charCodeAt(0);return COLORS[s%COLORS.length]}
 function today(){const d=new Date();d.setHours(0,0,0,0);return d}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
 function iso(d){return d.toISOString().slice(0,10)}
-function parse(s){const d=new Date(s+'T00:00:00');return d}
+function parse(s){return new Date(s+'T00:00:00')}
 function daysFromNow(s){return Math.round((parse(s)-today())/86400000)}
 function relDue(s){const n=daysFromNow(s);if(n===0)return'today';if(n>0)return'in '+n+'d';return Math.abs(n)+'d ago'}
-//--- engine
+function fullName(c){return ((c.first||'')+' '+(c.last||'')).trim()||c.name||'(unnamed)'}
+function mixStr(c){if(!c.mix)return'—';const m=c.mix;const p=[['Conv',m.conv],['GNMA',m.gnma],['Non-Agency',m.nonagency],['Other',m.other]].filter(x=>x[1]>0).map(x=>x[0]+' '+x[1]+'%');return p.length?p.join(' · '):'—'}
 function genTasks(track,startISO){
   const start=parse(startISO);let id=0;
   return TPL.filter(t=>t.tr.includes(track)).map(t=>({
@@ -200,45 +310,107 @@ function currentPhase(c){const t=c.tasks.find(x=>!x.done);return t?t.phase:'Comp
 function isOverdue(t){return !t.done&&!t.blocked&&daysFromNow(t.due)<0}
 function attention(c){return c.tasks.some(t=>t.blocked||isOverdue(t))}
 function trackPill(tr){return tr==='exec'?'<span class="pill p-exec">Executive</span>':tr==='sales'?'<span class="pill p-sales">Sales</span>':'<span class="pill p-ops">Ops</span>'}
+// swim-lane owner groupings (mirror the Org-Wide color key)
+const LANES=[
+ {n:'Recruiter / HR',col:'#6366f1',owners:['Recruiter','HR','BRI']},
+ {n:'Hiring Mgr / Exec',col:'#f59e0b',owners:['Hiring Mgr','Leadership','Team Lead']},
+ {n:'IT / Encompass',col:'#0ea5e9',owners:['IT']},
+ {n:'Marketing',col:'#e0a81e',owners:['Marketing']},
+ {n:'Licensing / Compliance',col:'#f43f5e',owners:['Licensing']},
+ {n:'Training / Supervisor',col:'#14b8a6',owners:['Trainer','Supervisor','Manager']},
+ {n:'Admin / Logistics',col:'#64748b',owners:['Admin','All','Full group','—']},
+];
+function buildLanesGlobal(items,phases){ // items:[{c,t}] — swim lane across all candidates
+  const legend=`<div style="display:flex;gap:9px 14px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--ink2)">${LANES.map(l=>`<span><span class="lswatch" style="background:${l.col}"></span>${l.n}</span>`).join('')}</div>`;
+  const head=`<tr><th style="text-align:left">Lane ↓&nbsp;&nbsp;Stage →</th>${phases.map(p=>`<th>${p}</th>`).join('')}</tr>`;
+  const rows=LANES.filter(l=>items.some(x=>l.owners.includes(x.t.owner))).map(l=>{
+    const cells=phases.map(ph=>{
+      const cell=items.filter(x=>x.t.phase===ph&&l.owners.includes(x.t.owner));
+      if(!cell.length)return '<td><span style="color:#cbd2e0">—</span></td>';
+      return `<td>${cell.map(({c,t})=>{
+        const bd=t.done?'var(--emerald)':t.blocked?'var(--rose)':l.col;const ic=t.done?'✓ ':t.blocked?'⚠ ':'';
+        return `<button class="lchip ${t.done?'done':''}" style="background:${l.col}1c;border-left-color:${bd}" onclick="toggleTask('${c.id}','${t.id}')" title="${esc(fullName(c)+' — '+t.title)}">${ic}<b style="font-weight:800">${c.first}</b> · ${t.title}<span class="lc-meta">${t.owner} · ${relDue(t.due)}</span></button>`;
+      }).join('')}</td>`;
+    }).join('');
+    return `<tr><td class="lane"><span class="lswatch" style="background:${l.col}"></span>${l.n}</td>${cells}</tr>`;
+  }).join('');
+  return legend+`<div style="overflow-x:auto"><table class="swim">${head}${rows}</table></div>`;
+}
+function buildLanes(c,phs){
+  const legend=`<div style="display:flex;gap:9px 14px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--ink2)">${LANES.map(l=>`<span><span class="lswatch" style="background:${l.col}"></span>${l.n}</span>`).join('')}</div>`;
+  const head=`<tr><th style="text-align:left">Lane ↓&nbsp;&nbsp;Stage →</th>${phs.map(p=>`<th>${p}</th>`).join('')}</tr>`;
+  const rows=LANES.filter(l=>c.tasks.some(t=>l.owners.includes(t.owner))).map(l=>{
+    const cells=phs.map(ph=>{
+      const ts=c.tasks.filter(t=>t.phase===ph&&l.owners.includes(t.owner));
+      if(!ts.length)return '<td><span style="color:#cbd2e0">—</span></td>';
+      return `<td>${ts.map(t=>{
+        const bd=t.done?'var(--emerald)':t.blocked?'var(--rose)':l.col;const ic=t.done?'✓ ':t.blocked?'⚠ ':'';
+        return `<button class="lchip ${t.done?'done':''}" style="background:${l.col}1c;border-left-color:${bd}" onclick="toggleTask('${c.id}','${t.id}')" title="${esc(t.title)}">${ic}${t.title}<span class="lc-meta">${t.owner} · ${relDue(t.due)}${t.blocked?' · blocked':''}</span></button>`;
+      }).join('')}</td>`;
+    }).join('');
+    return `<tr><td class="lane"><span class="lswatch" style="background:${l.col}"></span>${l.n}</td>${cells}</tr>`;
+  }).join('');
+  return legend+`<div style="overflow-x:auto"><table class="swim">${head}${rows}</table></div>`;
+}
 //=================== STATE ===================
 let state,route='dash',cand=null;
-function save(){localStorage.setItem('runway_v2',JSON.stringify(state))}
-function load(){try{return JSON.parse(localStorage.getItem('runway_v2'))}catch(e){return null}}
+const KEY='runway_v4';
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function emptyReq(){return{reqType:'Addition',status:'Full Time',flsa:'Exempt',nmlsReq:'Not required',location:'',workMode:'Onsite',directReports:'',offerTerms:'',insuranceWaiver:false,equipment:'',manager:'',deptHeadApproved:false}}
+function emptyAbout(){return{preferred:'',dobMD:'',personalEmail:'',mailingAddress:'',restaurant:'',coffee:'',cocktail:'',softdrink:'',candy:'',snack:'',team:'',movie:'',hobby:'',relax:'',charity:'',whyMortgageCo:'',greatestConcern:'',recognitionPref:''}}
 function seed(){
-  function mk(name,role,track,startOffset,svOffset,blockGov){
+  function mk(first,last,role,roleCode,track,startOffset,svOffset,mix,about,blockGov){
     const start=iso(addDays(today(),startOffset));
-    const c={id:'c'+Math.random().toString(36).slice(2,8),name,role,track,start,
+    const c={id:'c'+Math.random().toString(36).slice(2,8),first,last,name:first+' '+last,role,roleCode,track,start,
       sv:svOffset!=null?iso(addDays(today(),svOffset)):null,
-      fields:{cell:'(847) 555-01'+Math.floor(10+Math.random()*89),email:name.split(' ')[0].toLowerCase()+'@gmail.com',nmls:track==='ops'?'—':String(1000000+Math.floor(Math.random()*99999)),mix:track==='ops'?'—':'Conv · GNMA · Jumbo · NQM',avgLoan:track==='ops'?'—':'$485K'},
-      about:['Italian food','Old-fashioned','Bulls','Golf'],issues:[],tasks:genTasks(track,start)};
-    // seed done = due in the past
+      fields:{cell:'(847) 555-01'+Math.floor(10+Math.random()*89),email:first.toLowerCase()+'@gmail.com',nmls:track==='ops'?'—':String(1000000+Math.floor(Math.random()*99999)),avgLoan:track==='ops'?'—':'$485K'},
+      mix:mix,req:Object.assign(emptyReq(),{location:'Schaumburg, IL',manager:'Mike Morales',deptHeadApproved:true,nmlsReq:track==='ops'?'Not required':'Required'}),
+      about:Object.assign(emptyAbout(),about||{}),prov:{},issues:[],tasks:genTasks(track,start)};
     c.tasks.forEach(t=>{if(daysFromNow(t.due)<0)t.done=true;});
     if(blockGov){const g=c.tasks.find(t=>t.sop==='license');if(g){g.done=false;g.blocked=true;}}
     return c;
   }
   return {cands:[
-    mk('Marcus Webb','Sr. Loan Officer','sales',18,-20),
-    mk('Luis Ortega','Loan Officer','sales',-6,-30,true),
-    mk('Priya Shah','Branch Leader','exec',26,2),
-    mk('Dana Cole','Processor','ops',21,null),
-    mk('Sam Reed','Closer','ops',14,null),
+    mk('Marcus','Webb','Sr. Loan Officer','LO','sales',18,-20,{conv:60,gnma:25,nonagency:10,other:5}),
+    mk('Luis','Ortega','Loan Officer','LO','sales',-6,-30,{conv:70,gnma:20,nonagency:5,other:5},{preferred:'Lou',restaurant:'Lou Malnati\'s',coffee:'Cortado',cocktail:'Old-fashioned',team:'Bulls',hobby:'Golf',recognitionPref:'Words of affirmation',whyMortgageCo:'Operations that actually close on time',greatestConcern:'Losing my pipeline in the move'}),
+    mk('Priya','Shah','Branch Leader','BM','exec',26,2,{conv:55,gnma:30,nonagency:10,other:5}),
+    mk('Dana','Cole','Processor','LP2','ops',21,null,null),
+    mk('Sam','Reed','Closer','CL','ops',14,null,null),
   ]};
 }
 state=load();if(!state||!state.cands||!state.cands.length){state=seed();save();}
+if(!state.roles)state.roles=ROLES.map(r=>({...r}));
+if(!state.matrix)state.matrix=buildDefaultMatrix();
+save();
 cand=state.cands[0].id;
 function getCand(id){return state.cands.find(c=>c.id===id)}
-function resetDemo(){if(confirm('Reset to demo data? Your changes will be cleared.')){state=seed();cand=state.cands[0].id;save();render();}}
+function resetDemo(){if(confirm('Reset candidates to demo data? (Your role/matrix admin edits are kept.)')){const m=state.matrix,r=state.roles;state=seed();state.matrix=m;state.roles=r;cand=state.cands[0].id;save();render();}}
 //=================== ACTIONS ===================
 function toggleTask(cid,tid){const c=getCand(cid),t=c.tasks.find(x=>x.id===tid);if(t.blocked){t.blocked=false;}else{t.done=!t.done;}save();render();}
-function setCand(id){cand=id;if(['record','huddle','portal'].includes(route))render();}
+function setCand(id){cand=id;if(['record','access','huddle','portal'].includes(route))render();}
+function toggleProv(cid,key){const c=getCand(cid);c.prov=c.prov||{};c.prov[key]=!c.prov[key];save();render();}
+//--- Admin: edit the Access Matrix (roles + systems + access levels)
+function addRole(){const cc=prompt('New role code (short, e.g. LO, UW, BM):');if(!cc)return;const code=cc.trim().toUpperCase();if(!code)return;if(state.roles.some(r=>r.c===code)){alert('Role code "'+code+'" already exists.');return;}const n=prompt('Role name (e.g. Loan Officer):',code)||code;state.roles.push({c:code,n:n.trim()});window._arole=code;save();render();}
+function renameRole(code){const r=state.roles.find(x=>x.c===code);if(!r)return;const n=prompt('Role name:',r.n);if(n!=null){r.n=n.trim()||r.n;save();render();}}
+function deleteRole(code){if(!confirm('Remove role '+code+'? Its column is dropped from every system in the matrix.'))return;state.roles=state.roles.filter(r=>r.c!==code);state.matrix.forEach(g=>g.rows.forEach(row=>{if(row.vals)delete row.vals[code];}));if(window._arole===code)window._arole=state.roles[0]&&state.roles[0].c;save();render();}
+function setVal(gi,ri,role,v){const row=state.matrix[gi].rows[ri];row.vals=row.vals||{};row.vals[role]=v.trim();save();}
+function addSystem(gi){const s=prompt('System / item name:');if(!s)return;const note=prompt('Sub-note (optional — e.g. "sponsorship-gated"):')||'';state.matrix[gi].rows.push({s:s.trim(),note:note.trim(),base:false,vals:{}});save();render();}
+function deleteSystem(gi,ri){if(!confirm('Remove this system from the matrix?'))return;state.matrix[gi].rows.splice(ri,1);save();render();}
+function addGroup(){const o=prompt('System group / owner name (e.g. "Marketing · Brand launch"):');if(!o)return;const col=prompt('Header color (hex, e.g. #6366f1):','#64748b')||'#64748b';state.matrix.push({o:o.trim(),col:col.trim(),rows:[]});save();render();}
 function addCandidate(){
-  const name=document.getElementById('f_name').value.trim();if(!name){alert('Name required');return;}
-  const role=document.getElementById('f_role').value.trim()||'New hire';
-  const track=document.getElementById('f_track').value;
-  const start=document.getElementById('f_start').value||iso(addDays(today(),21));
-  const sv=document.getElementById('f_sv').value||null;
-  const c={id:'c'+Math.random().toString(36).slice(2,8),name,role,track,start,sv,
-    fields:{cell:'',email:'',nmls:track==='ops'?'—':'',mix:document.getElementById('f_mix').value.trim()||(track==='ops'?'—':''),avgLoan:document.getElementById('f_avg').value.trim()||(track==='ops'?'—':'')},about:[],issues:[],tasks:genTasks(track,start)};
+  const g=id=>document.getElementById(id).value;
+  const first=g('f_first').trim();if(!first){alert('First name required');return;}
+  const last=g('f_last').trim();
+  const track=g('f_track');
+  const start=g('f_start')||iso(addDays(today(),21));
+  const num=id=>{const n=parseInt(g(id),10);return isNaN(n)?0:n};
+  const mix=track==='ops'?null:{conv:num('f_conv'),gnma:num('f_gnma'),nonagency:num('f_nonag'),other:num('f_other')};
+  const c={id:'c'+Math.random().toString(36).slice(2,8),first,last,name:(first+' '+last).trim(),
+    role:g('f_role').trim()||'New hire',roleCode:g('f_rolecode'),track,start,sv:g('f_sv')||null,
+    fields:{cell:g('f_cell').trim(),email:g('f_email').trim(),nmls:track==='ops'?'—':(g('f_nmls').trim()||''),avgLoan:track==='ops'?'—':(g('f_avg').trim()||'')},
+    mix,about:emptyAbout(),prov:{},issues:[],tasks:genTasks(track,start),
+    req:Object.assign(emptyReq(),{reqType:g('f_reqtype'),status:g('f_status'),flsa:g('f_flsa'),nmlsReq:g('f_nmlsreq'),location:g('f_loc').trim(),workMode:g('f_mode'),manager:g('f_mgr').trim(),equipment:g('f_equip').trim(),offerTerms:g('f_offer').trim()})};
   state.cands.unshift(c);cand=c.id;save();closeModal();route='record';setNav();render();
 }
 function addTaskTo(cid){const c=getCand(cid);const v=document.getElementById('newtask_'+cid);const title=(v.value||'').trim();if(!title)return;
@@ -250,34 +422,76 @@ function openSOP(id){const s=SOPS[id];if(!s)return;document.getElementById('drta
 function closeSOP(){document.getElementById('scrim').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSOP();closeModal();}});
 //=================== MODALS ===================
-function openAdd(){document.getElementById('modal').innerHTML=`<div class="modal"><h3>Add candidate</h3><div class="mbody"><label>Full name</label><input id="f_name" placeholder="Jane Smith"><label>Role / title</label><input id="f_role" placeholder="Loan Officer"><label>Track</label><select id="f_track"><option value="sales">Sales / Producer</option><option value="exec">Executive</option><option value="ops">Ops / Support</option></select><label>Product mix (optional)</label><input id="f_mix" placeholder="Conv · GNMA · Jumbo · NQM · Other"><label>Avg loan amount (optional)</label><input id="f_avg" placeholder="$485K"><label>Start date (Day 1)</label><input id="f_start" type="date" value="${iso(addDays(today(),21))}"><label>Site-visit date (sales/exec, optional)</label><input id="f_sv" type="date"></div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="addCandidate()">Create + generate checklist</button></div></div>`;document.getElementById('modal').classList.add('open');}
-function esc(s){return String(s||'').replace(/"/g,'&quot;')}
-function openEdit(cid){const c=getCand(cid);document.getElementById('modal').innerHTML=`<div class="modal"><h3>Edit ${c.name}</h3><div class="mbody">
-<label>Full name</label><input id="e_name" value="${esc(c.name)}">
-<label>Role / title</label><input id="e_role" value="${esc(c.role)}">
-<label>Cell</label><input id="e_cell" value="${esc(c.fields.cell)}">
-<label>Email</label><input id="e_email" value="${esc(c.fields.email)}">
-<label>NMLS</label><input id="e_nmls" value="${esc(c.fields.nmls)}">
-<label>Product mix (Conv / GNMA / Jumbo / NQM / Other)</label><input id="e_mix" value="${esc(c.fields.mix)}">
-<label>Average loan amount</label><input id="e_avg" value="${esc(c.fields.avgLoan)}">
-<label>Start date (Day 1) — changing this recomputes every due date</label><input id="e_start" type="date" value="${c.start}">
-<label>Site-visit date</label><input id="e_sv" type="date" value="${c.sv||''}">
-<label>All About You (comma-separated)</label><input id="e_about" value="${esc((c.about||[]).join(', '))}">
+function esc(s){return String(s==null?'':s).replace(/"/g,'&quot;')}
+function opts(list,sel){return list.map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('')}
+function roleOpts(sel){return '<option value="">— none / executive —</option>'+liveRoles().map(r=>`<option value="${r.c}" ${r.c===sel?'selected':''}>${r.n} (${r.c})</option>`).join('')}
+function openAdd(){document.getElementById('modal').innerHTML=`<div class="modal"><h3>New Hire Request</h3><div class="mbody">
+<div class="m2"><div><label>First name</label><input id="f_first" placeholder="Jane"></div><div><label>Last name</label><input id="f_last" placeholder="Smith"></div></div>
+<div class="m2"><div><label>Title / position</label><input id="f_role" placeholder="Loan Officer"></div><div><label>Role (Access Matrix)</label><select id="f_rolecode">${roleOpts('LO')}</select></div></div>
+<div class="m2"><div><label>Track</label><select id="f_track"><option value="sales">Sales / Producer</option><option value="exec">Executive</option><option value="ops">Ops / Support</option></select></div><div><label>Type</label><select id="f_reqtype">${opts(['Addition','Replacement'])}</select></div></div>
+<div class="m2"><div><label>Status</label><select id="f_status">${opts(['Full Time','Part Time','Temp/Intern','Staff Agency'])}</select></div><div><label>FLSA</label><select id="f_flsa">${opts(['Exempt','Non-Exempt'])}</select></div></div>
+<div class="m2"><div><label>NMLS</label><select id="f_nmlsreq">${opts(['Not required','Required','Required within 30 days'])}</select></div><div><label>Work mode</label><select id="f_mode">${opts(['Onsite','Hybrid','Remote'])}</select></div></div>
+<div class="m2"><div><label>Desired hire date (Day 1)</label><input id="f_start" type="date" value="${iso(addDays(today(),21))}"></div><div><label>Site-visit date (sales/exec)</label><input id="f_sv" type="date"></div></div>
+<div class="m2"><div><label>Dept / branch / location</label><input id="f_loc" placeholder="Schaumburg, IL"></div><div><label>Hiring manager</label><input id="f_mgr" placeholder="Mike Morales"></div></div>
+<label>Product mix — % of production (Conv / GNMA / Non-Agency / Other)</label><div class="mixrow"><input id="f_conv" type="number" min="0" max="100" placeholder="Conv"><input id="f_gnma" type="number" min="0" max="100" placeholder="GNMA"><input id="f_nonag" type="number" min="0" max="100" placeholder="Non-Ag"><input id="f_other" type="number" min="0" max="100" placeholder="Other"></div>
+<div class="m2"><div><label>Cell</label><input id="f_cell" placeholder="(847) 555-0100"></div><div><label>Personal email</label><input id="f_email" placeholder="jane@gmail.com"></div></div>
+<div class="m2"><div><label>NMLS #</label><input id="f_nmls" placeholder="1234567"></div><div><label>Avg loan amount</label><input id="f_avg" placeholder="$485K"></div></div>
+<label>Offer terms (salary/commission/overrides/bonus)</label><input id="f_offer" placeholder="Base + commission schedule…">
+<label>Equipment needs (feeds IT provisioning)</label><input id="f_equip" placeholder="Laptop + 2 monitors, dual-SIM phone…">
+</div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="addCandidate()">Create + generate checklist</button></div></div>`;document.getElementById('modal').classList.add('open');}
+function openEdit(cid){const c=getCand(cid);document.getElementById('modal').innerHTML=`<div class="modal"><h3>Edit ${fullName(c)}</h3><div class="mbody">
+<div class="m2"><div><label>First name</label><input id="e_first" value="${esc(c.first)}"></div><div><label>Last name</label><input id="e_last" value="${esc(c.last)}"></div></div>
+<div class="m2"><div><label>Title / position</label><input id="e_role" value="${esc(c.role)}"></div><div><label>Role (Access Matrix)</label><select id="e_rolecode">${roleOpts(c.roleCode)}</select></div></div>
+<div class="m2"><div><label>Cell</label><input id="e_cell" value="${esc(c.fields.cell)}"></div><div><label>Email</label><input id="e_email" value="${esc(c.fields.email)}"></div></div>
+<div class="m2"><div><label>NMLS #</label><input id="e_nmls" value="${esc(c.fields.nmls)}"></div><div><label>Avg loan amount</label><input id="e_avg" value="${esc(c.fields.avgLoan)}"></div></div>
+<label>Product mix — % (Conv / GNMA / Non-Agency / Other)</label><div class="mixrow"><input id="e_conv" type="number" min="0" max="100" value="${c.mix?c.mix.conv:''}" placeholder="Conv"><input id="e_gnma" type="number" min="0" max="100" value="${c.mix?c.mix.gnma:''}" placeholder="GNMA"><input id="e_nonag" type="number" min="0" max="100" value="${c.mix?c.mix.nonagency:''}" placeholder="Non-Ag"><input id="e_other" type="number" min="0" max="100" value="${c.mix?c.mix.other:''}" placeholder="Other"></div>
+<div class="m2"><div><label>Start date (Day 1) — recomputes due dates</label><input id="e_start" type="date" value="${c.start}"></div><div><label>Site-visit date</label><input id="e_sv" type="date" value="${c.sv||''}"></div></div>
 </div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="saveEdit('${cid}')">Save changes</button></div></div>`;document.getElementById('modal').classList.add('open');}
 function saveEdit(cid){const c=getCand(cid);const g=id=>document.getElementById(id).value;
-  c.name=g('e_name').trim()||c.name;c.role=g('e_role').trim();
-  c.fields.cell=g('e_cell').trim();c.fields.email=g('e_email').trim();c.fields.nmls=g('e_nmls').trim()||'—';
-  c.fields.mix=g('e_mix').trim()||'—';c.fields.avgLoan=g('e_avg').trim()||'—';
+  c.first=g('e_first').trim();c.last=g('e_last').trim();c.name=fullName({first:c.first,last:c.last});
+  c.role=g('e_role').trim();c.roleCode=g('e_rolecode');
+  c.fields.cell=g('e_cell').trim();c.fields.email=g('e_email').trim();c.fields.nmls=g('e_nmls').trim()||'—';c.fields.avgLoan=g('e_avg').trim()||'—';
+  const num=id=>{const n=parseInt(g(id),10);return isNaN(n)?0:n};const mx={conv:num('e_conv'),gnma:num('e_gnma'),nonagency:num('e_nonag'),other:num('e_other')};
+  c.mix=(c.track==='ops'&&!(mx.conv||mx.gnma||mx.nonagency||mx.other))?null:mx;
   const ns=g('e_start');if(ns&&ns!==c.start){c.start=ns;c.tasks.forEach(t=>{t.due=iso(addDays(parse(c.start),t.off))});}
-  c.sv=g('e_sv')||null;c.about=g('e_about').split(',').map(x=>x.trim()).filter(Boolean);
+  c.sv=g('e_sv')||null;save();closeModal();render();}
+function openReq(cid){const c=getCand(cid);const r=c.req||emptyReq();document.getElementById('modal').innerHTML=`<div class="modal"><h3>New Hire Request · ${fullName(c)}</h3><div class="mbody">
+<div class="m2"><div><label>Type</label><select id="r_type">${opts(['Addition','Replacement'],r.reqType)}</select></div><div><label>Status</label><select id="r_status">${opts(['Full Time','Part Time','Temp/Intern','Staff Agency'],r.status)}</select></div></div>
+<div class="m2"><div><label>FLSA</label><select id="r_flsa">${opts(['Exempt','Non-Exempt'],r.flsa)}</select></div><div><label>NMLS</label><select id="r_nmls">${opts(['Not required','Required','Required within 30 days'],r.nmlsReq)}</select></div></div>
+<div class="m2"><div><label>Dept / branch / location</label><input id="r_loc" value="${esc(r.location)}"></div><div><label>Work mode</label><select id="r_mode">${opts(['Onsite','Hybrid','Remote'],r.workMode)}</select></div></div>
+<div class="m2"><div><label>Hiring manager</label><input id="r_mgr" value="${esc(r.manager)}"></div><div><label>Direct reports</label><input id="r_dr" value="${esc(r.directReports)}" placeholder="N/A"></div></div>
+<label>Offer terms (salary/commission/overrides/bonus)</label><input id="r_offer" value="${esc(r.offerTerms)}">
+<label>Equipment needs (feeds IT provisioning)</label><input id="r_equip" value="${esc(r.equipment)}">
+<label><input type="checkbox" id="r_ins" style="width:auto;margin-right:7px" ${r.insuranceWaiver?'checked':''}>Request waiver of 30-day insurance waiting period</label>
+<label><input type="checkbox" id="r_appr" style="width:auto;margin-right:7px" ${r.deptHeadApproved?'checked':''}>Department head approved</label>
+</div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="saveReq('${cid}')">Save request</button></div></div>`;document.getElementById('modal').classList.add('open');}
+function saveReq(cid){const c=getCand(cid);const g=id=>document.getElementById(id).value;const ck=id=>document.getElementById(id).checked;
+  c.req={reqType:g('r_type'),status:g('r_status'),flsa:g('r_flsa'),nmlsReq:g('r_nmls'),location:g('r_loc').trim(),workMode:g('r_mode'),manager:g('r_mgr').trim(),directReports:g('r_dr').trim(),offerTerms:g('r_offer').trim(),equipment:g('r_equip').trim(),insuranceWaiver:ck('r_ins'),deptHeadApproved:ck('r_appr')};
   save();closeModal();render();}
+function openAbout(cid){const c=getCand(cid);const a=c.about||emptyAbout();const f=(id,lbl,ph)=>`<div><label>${lbl}</label><input id="${id}" value="${esc(a[id.slice(2)])}" placeholder="${ph||''}"></div>`;
+  document.getElementById('modal').innerHTML=`<div class="modal"><h3>All About You · ${fullName(c)}</h3><div class="mbody">
+<div class="m2">${f('a_preferred','Preferred name')}${f('a_dobMD','DOB (month/day)','06/24')}</div>
+<div class="m2">${f('a_personalEmail','Personal email')}${f('a_mailingAddress','Mailing address')}</div>
+<div class="grp-h" style="margin:18px 0 2px">Favorites</div>
+<div class="m2">${f('a_restaurant','Restaurant')}${f('a_coffee','Coffee')}</div>
+<div class="m2">${f('a_cocktail','Cocktail')}${f('a_softdrink','Soft drink')}</div>
+<div class="m2">${f('a_candy','Candy')}${f('a_snack','On-the-go snack')}</div>
+<div class="m2">${f('a_team','Pro sports team')}${f('a_movie','Movie')}</div>
+<div class="m2">${f('a_hobby','Hobby(s)')}${f('a_relax','Way to relax')}</div>
+<div class="m2">${f('a_charity','Charity / cause')}<div><label>Recognition preference</label><select id="a_recognitionPref">${opts(['','Words of affirmation','Acts of service','Quality time','Gifts','Other'],a.recognitionPref)}</select></div></div>
+<label>What matters most when choosing a mortgage company?</label><textarea id="a_whyMortgageCo">${esc(a.whyMortgageCo)}</textarea>
+<label>(Optional) Greatest concern about moving — so we can address it</label><textarea id="a_greatestConcern">${esc(a.greatestConcern)}</textarea>
+</div><div class="mfoot"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn pri" onclick="saveAbout('${cid}')">Save</button></div></div>`;document.getElementById('modal').classList.add('open');}
+function saveAbout(cid){const c=getCand(cid);const g=id=>document.getElementById(id).value;const a=emptyAbout();
+  Object.keys(a).forEach(k=>{const el=document.getElementById('a_'+k);if(el)a[k]=el.value.trim();});
+  c.about=a;save();closeModal();render();}
 function closeModal(){document.getElementById('modal').classList.remove('open');document.getElementById('modal').innerHTML='';}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
 //=================== RENDER ===================
-const TITLES={dash:['Dashboard','Live cohort — generated from real data'],pipeline:['Pipeline','Every candidate in their current phase'],tasks:['Tasks','Filter by owner; check off — it saves'],record:['Candidate','Record · checklist · the SOP behind every task'],huddle:['Onboarding Huddle','Fix live · capture · improve'],portal:['Recruit Portal','What the candidate sees'],sops:['SOP Library','Every procedure']};
+const TITLES={dash:['Dashboard','Live cohort — generated from real data'],pipeline:['Pipeline','Every candidate in their current phase'],tasks:['Work Queue','Each team’s to-do across the whole pipeline'],record:['Candidate','Record · requisition · All About You · checklist + access'],access:['Access Setup','Role-based provisioning from the Access Matrix'],huddle:['Onboarding Huddle','Fix live · capture · improve'],portal:['Recruit Portal','What the candidate sees'],forms:['Forms','Information-gathering forms — answers live on profiles'],sops:['SOP Library','Every procedure'],admin:['Admin · Access Matrix','Add & edit roles and access levels — future-proof']};
 function setNav(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===route));document.getElementById('vtitle').textContent=TITLES[route][0];document.getElementById('vcrumb').textContent=TITLES[route][1];}
 document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{route=b.dataset.v;setNav();render();}));
-function candPicker(){const sel=document.getElementById('candpick');const show=['record','huddle','portal'].includes(route);sel.style.display=show?'':'none';if(show){sel.innerHTML=state.cands.map(c=>`<option value="${c.id}" ${c.id===cand?'selected':''}>${c.name} · ${c.role}</option>`).join('');}}
+function candPicker(){const sel=document.getElementById('candpick');const show=['record','access','huddle','portal'].includes(route);sel.style.display=show?'':'none';if(show){sel.innerHTML=state.cands.map(c=>`<option value="${c.id}" ${c.id===cand?'selected':''}>${fullName(c)} · ${c.role}</option>`).join('');}}
 function avatar(name,sz){sz=sz||34;return `<div class="ava" style="width:${sz}px;height:${sz}px;font-size:${sz/2.7}px;background:${colorFor(name)}">${initials(name)}</div>`}
 function statusPill(c){if(c.tasks.some(t=>t.blocked))return'<span class="pill p-risk"><span class="dot" style="background:var(--rose)"></span>Blocked</span>';if(c.tasks.some(t=>isOverdue(t)))return'<span class="pill p-wait"><span class="dot" style="background:var(--amber)"></span>Overdue</span>';return'<span class="pill p-ok"><span class="dot" style="background:var(--emerald)"></span>On track</span>'}
 
@@ -286,79 +500,126 @@ function render(){candPicker();const v=document.getElementById('view');
   else if(route==='pipeline')v.innerHTML=renderPipeline();
   else if(route==='tasks')v.innerHTML=renderTasks();
   else if(route==='record')v.innerHTML=renderRecord();
+  else if(route==='access')v.innerHTML=renderAccess();
   else if(route==='huddle')v.innerHTML=renderHuddle();
   else if(route==='portal')v.innerHTML=renderPortal();
   else if(route==='sops')v.innerHTML=renderSOPs();
+  else if(route==='forms')v.innerHTML=renderForms();
+  else if(route==='admin')v.innerHTML=renderAdmin();
 }
 function renderDash(){
   const cs=state.cands;const active=cs.length;
   const need=cs.filter(attention).length;const ok=active-need;
   const avg=active?Math.round(cs.reduce((s,c)=>s+progress(c).pct,0)/active):0;
   const future=cs.filter(c=>daysFromNow(c.start)>=0).sort((a,b)=>daysFromNow(a.start)-daysFromNow(b.start))[0];
-  const rows=cs.map(c=>`<tr class="rowlink" onclick="cand='${c.id}';route='record';setNav();render()"><td><div class="who">${avatar(c.name)}<div><b>${c.name}</b><small>${c.role}</small></div></div></td><td>${trackPill(c.track)}</td><td>${currentPhase(c)}</td><td style="min-width:120px"><div class="bar" style="margin-bottom:4px"><i style="width:${progress(c).pct}%"></i></div><small style="color:var(--mut);font-size:11px">${progress(c).done}/${progress(c).total} · ${progress(c).pct}%</small></td><td>${statusPill(c)}</td></tr>`).join('');
-  const att=cs.filter(attention).flatMap(c=>c.tasks.filter(t=>t.blocked||isOverdue(t)).map(t=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw"><b>${c.name}</b> — ${t.title} <small>${t.blocked?'blocked':'overdue '+relDue(t.due)} · ${t.owner}</small></div></div>`)).join('')||'<div class="empty">Nothing needs attention 🎉</div>';
+  const rows=cs.map(c=>`<tr class="rowlink" onclick="cand='${c.id}';route='record';setNav();render()"><td><div class="who">${avatar(fullName(c))}<div><b>${fullName(c)}</b><small>${c.role}</small></div></div></td><td>${trackPill(c.track)}</td><td>${currentPhase(c)}</td><td style="min-width:120px"><div class="bar" style="margin-bottom:4px"><i style="width:${progress(c).pct}%"></i></div><small style="color:var(--mut);font-size:11px">${progress(c).done}/${progress(c).total} · ${progress(c).pct}%</small></td><td>${statusPill(c)}</td></tr>`).join('');
   return `<div class="grid kpis" style="margin-bottom:18px">
     <div class="card kpi"><div class="v">${active}</div><div class="k">Active candidates</div></div>
     <div class="card kpi"><div class="v" style="color:var(--emerald)">${ok}</div><div class="k">On track</div></div>
     <div class="card kpi"><div class="v" style="color:${need?'var(--rose)':'var(--emerald)'}">${need}</div><div class="k">Need attention</div></div>
     <div class="card kpi"><div class="v">${avg}%</div><div class="k">Avg progress</div></div>
-    <div class="card kpi"><div class="v">${future?relDue(future.start):'—'}</div><div class="k">Next Day 1${future?' · '+future.name.split(' ')[0]:''}</div></div>
+    <div class="card kpi"><div class="v">${future?relDue(future.start):'—'}</div><div class="k">Next Day 1${future?' · '+future.first:''}</div></div>
   </div>
-  <div class="grid" style="grid-template-columns:1.5fr 1fr;align-items:start">
-    <div class="card pad"><h2 class="sec">Active candidates</h2><table><thead><tr><th>Candidate</th><th>Track</th><th>Phase</th><th>Progress</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <div class="card pad"><h2 class="sec">Needs attention</h2>${att}</div>
-  </div>`;
+  <div class="card pad"><h2 class="sec">Active candidates</h2><table><thead><tr><th>Candidate</th><th>Track</th><th>Phase</th><th>Progress</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function renderPipeline(){
   const c0=state.cands;
-  const lanes=[...new Set([...PHASES_REL,...PHASES_OPS])];
-  // build columns by phase label union, plus screen for ops
   const order=['Site Visit','Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance','Complete'];
   const body=order.map(ph=>{const inLane=c0.filter(c=>currentPhase(c)===ph);if(!inLane.length&&!['Site Visit','Offer / BI','Pre-boarding','Day 1 → 30'].includes(ph))return'';
-    return `<div class="lane"><h4>${ph} <span>${inLane.length}</span></h4>${inLane.map(c=>`<div class="ccard ${c.track}" onclick="cand='${c.id}';route='record';setNav();render()"><b>${c.name}</b><div class="cm">${c.role} · ${progress(c).pct}%${c.tasks.some(t=>t.blocked)?' · ⚠':''}</div></div>`).join('')||'<div style="font-size:11px;color:var(--mut);text-align:center;padding:8px">—</div>'}</div>`;}).join('');
+    return `<div class="lane"><h4>${ph} <span>${inLane.length}</span></h4>${inLane.map(c=>`<div class="ccard ${c.track}" onclick="cand='${c.id}';route='record';setNav();render()"><b>${fullName(c)}</b><div class="cm">${c.role} · ${progress(c).pct}%${c.tasks.some(t=>t.blocked)?' · ⚠':''}</div></div>`).join('')||'<div style="font-size:11px;color:var(--mut);text-align:center;padding:8px">—</div>'}</div>`;}).join('');
   return `<p style="color:var(--ink2);max-width:760px;margin:0 0 16px">Every candidate sits in their <b>current phase</b> (computed from their first unfinished task). Click a card to open the record. Ops candidates flow through <b>Screen & Interview</b> instead of Site Visit.</p><div class="board">${body}</div>`;
 }
-function renderTasks(){
+const PORDER=['Site Visit','Screen & Interview','Offer / BI','Pre-boarding','Day 1 → 30','Maintenance'];
+function taskChip(c,t){const cls=t.done?'p-ok':t.blocked?'p-risk':'';const sty=(t.done||t.blocked)?'':'background:#eef0f5;color:var(--ink2)';const ic=t.done?'✓ ':t.blocked?'⚠ ':'';return `<span class="pill ${cls}" style="cursor:pointer;${sty}" onclick="toggleTask('${c.id}','${t.id}')" title="${esc(fullName(c))} · due ${relDue(t.due)}${t.blocked?' · blocked':''}">${ic}${c.first}</span>`;}
+function renderTasks(){ // Work Queue — each team's to-do across all candidates
   const owners=[...new Set(state.cands.flatMap(c=>c.tasks.map(t=>t.owner)))].sort();
   const sel=window._owner||'All';
+  const tv=window._tview||'list';
   let all=[];state.cands.forEach(c=>c.tasks.forEach(t=>{if(sel==='All'||t.owner===sel)all.push({c,t})}));
-  all.sort((a,b)=>(a.t.done-b.t.done)||(daysFromNow(a.t.due)-daysFromNow(b.t.due)));
   const openCount=all.filter(x=>!x.t.done).length;
-  const rows=all.map(({c,t})=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw ${t.done?'d':''}"><b>${t.title}</b><small>${c.name} · ${t.owner} · due ${relDue(t.due)}${t.blocked?' · blocked':''}</small></div>${t.ess?'<span class="tag ess">Ess</span>':'<span class="tag enh">Enh</span>'}${t.sop?`<span class="openhint" onclick="openSOP('${t.sop}')">Steps ›</span>`:''}</div>`).join('')||'<div class="empty">No tasks for this owner.</div>';
-  const opts=['All',...owners].map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');
-  return `<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><label style="font-size:12px;font-weight:700;color:var(--ink2)">Owner</label><select onchange="window._owner=this.value;render()" style="border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit">${opts}</select><span style="color:var(--mut);font-size:12.5px">${openCount} open · done shown struck-through below — click ✓ to undo · saves instantly</span></div><div class="card pad">${rows}</div>`;
+  const phasesPresent=[...new Set(all.map(x=>x.t.phase))].sort((a,b)=>{const ia=PORDER.indexOf(a),ib=PORDER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)});
+  const optsHtml=['All',...owners].map(o=>`<option value="${o}" ${o===sel?'selected':''}>${o==='All'?'All owners':o}</option>`).join('');
+  const controls=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap"><div class="seg"><button class="${tv==='list'?'on':''}" onclick="window._tview='list';render()">▤ By owner</button><button class="${tv==='lanes'?'on':''}" onclick="window._tview='lanes';render()">⊞ Swim lanes</button></div><label style="font-size:12px;font-weight:700;color:var(--ink2)">Owner</label><select onchange="window._owner=this.value;render()" style="border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit">${optsHtml}</select><span style="color:var(--mut);font-size:12.5px;margin-left:auto">${openCount} open across the pipeline · click a name to toggle that person · saves instantly</span></div>`;
+  if(tv==='lanes'){
+    return controls+`<div class="card pad">${all.length?buildLanesGlobal(all,phasesPresent):'<div class="empty">No tasks for this owner.</div>'}</div>`;
+  }
+  const ownerList=sel==='All'?owners:[sel];
+  const sections=ownerList.map(o=>{
+    const items=all.filter(x=>x.t.owner===o);if(!items.length)return'';
+    const byTitle={};items.forEach(x=>{(byTitle[x.t.title]=byTitle[x.t.title]||[]).push(x);});
+    const titles=Object.keys(byTitle).sort((a,b)=>{const pa=PORDER.indexOf(byTitle[a][0].t.phase),pb=PORDER.indexOf(byTitle[b][0].t.phase);return ((pa<0?99:pa)-(pb<0?99:pb))||(Math.min(...byTitle[a].map(x=>x.t.off))-Math.min(...byTitle[b].map(x=>x.t.off)));});
+    const open=items.filter(x=>!x.t.done).length;const ncand=new Set(items.map(x=>x.c.id)).size;
+    const rows=titles.map(title=>{
+      const arr=byTitle[title].slice().sort((a,b)=>a.c.first.localeCompare(b.c.first));const t0=arr[0].t;
+      const chips=arr.map(({c,t})=>taskChip(c,t)).join(' ');
+      return `<div class="task" style="align-items:flex-start"><div class="tw"><b>${title}</b><small>${t0.phase}</small><div style="margin-top:7px;display:flex;gap:5px;flex-wrap:wrap">${chips}</div></div>${t0.ess?'<span class="tag ess">Ess</span>':'<span class="tag enh">Enh</span>'}${t0.sop?`<span class="openhint" onclick="openSOP('${t0.sop}')">Steps ›</span>`:''}</div>`;
+    }).join('');
+    return `<div class="grp-h" style="margin:22px 0 6px;display:flex;align-items:center"><span style="font-size:13px;color:var(--ink2)">${o}</span><span style="margin-left:auto;color:var(--mut);font-weight:700">${open} open · ${ncand} candidate${ncand>1?'s':''}</span></div><div class="card pad" style="padding-top:8px;padding-bottom:8px">${rows}</div>`;
+  }).join('')||'<div class="empty">No tasks for this owner.</div>';
+  return controls+sections;
 }
 function renderRecord(){
   const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
-  const pr=progress(c);const view=window._recv||'list';
+  const pr=progress(c);
   const phs=phasesFor(c.track);
   const checklist=phs.map(ph=>{const ts=c.tasks.filter(t=>t.phase===ph);if(!ts.length)return'';const sop=ts.find(t=>t.sop);
     return `<div class="grp-h">${ph}${sop?` <span class="openhint" style="margin-left:8px" onclick="openSOP('${sop.sop}')">SOP ›</span>`:''}</div>`+ts.map(t=>`<div class="task"><div class="chk ${t.done?'done':t.blocked?'blk':''}" onclick="toggleTask('${c.id}','${t.id}')">${t.done?'✓':t.blocked?'!':''}</div><div class="tw ${t.done?'d':''}">${t.title}<small>${t.owner} · due ${relDue(t.due)}${t.blocked?' · ⚠ blocked (waiting-external)':''}</small></div>${t.sop?`<span class="openhint" onclick="openSOP('${t.sop}')">Steps ›</span>`:''}</div>`).join('');}).join('');
   const govNote=c.track==='ops'?'':'<div class="lock"><span>🔒</span> SSN · DOB · home address — <b>HR-only</b> · touch the BI submit only</div>';
-  return `<div class="card pad"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">${avatar(c.name,60)}<div><h2 style="margin:0;font-size:23px">${c.name}</h2><div style="color:var(--mut);font-size:13.5px;margin-top:3px">${trackPill(c.track)} · ${c.role} · <b style="color:var(--ink)">${currentPhase(c)}</b></div></div><div style="margin-left:auto;display:flex;gap:12px;align-items:center"><button class="btn ghost" onclick="openEdit('${c.id}')">✎ Edit</button><div style="text-align:center;background:linear-gradient(135deg,var(--nav),var(--nav2));color:#fff;border-radius:14px;padding:12px 22px"><div style="font-size:24px;font-weight:800;line-height:1">${daysFromNow(c.start)>=0?daysFromNow(c.start):'—'}</div><div style="font-size:11px;color:#cdb87a;margin-top:4px">days to Day 1</div></div></div></div></div>
-  <div class="grid" style="grid-template-columns:320px 1fr;gap:18px;margin-top:18px;align-items:start">
-    <div class="card pad"><h2 class="sec">Record</h2><div class="field"><span class="fl">Cell</span><span class="fv">${c.fields.cell||'—'}</span></div><div class="field"><span class="fl">Email</span><span class="fv">${c.fields.email||'—'}</span></div><div class="field"><span class="fl">NMLS</span><span class="fv">${c.fields.nmls||'—'}</span></div><div class="field"><span class="fl">Product mix</span><span class="fv">${c.fields.mix||'—'}</span></div><div class="field"><span class="fl">Avg loan amount</span><span class="fv">${c.fields.avgLoan||'—'}</span></div><div class="field"><span class="fl">Start date</span><span class="fv">${c.start}</span></div>${govNote}<div class="grp-h" style="margin-top:14px">All About You</div>${c.about.length?c.about.map(a=>`<span class="pill p-sales" style="margin:2px 3px 2px 0">${a}</span>`).join(''):'<small style="color:var(--mut)">captured Day 1</small>'}</div>
-    <div><div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><div class="seg"><button class="${view==='list'?'on':''}" onclick="window._recv='list';render()">✓ Checklist</button><button class="${view==='phase'?'on':''}" onclick="window._recv='phase';render()">Progress</button></div><span style="margin-left:auto;font-size:12.5px;font-weight:800;color:var(--ink2)">${pr.done}/${pr.total} · ${pr.pct}%</span></div><div class="bar" style="margin-bottom:16px"><i style="width:${pr.pct}%"></i></div>
-    ${view==='phase'?phs.map(ph=>{const ts=c.tasks.filter(t=>t.phase===ph);if(!ts.length)return'';const d=ts.filter(t=>t.done).length;return `<div class="card pad" style="margin-bottom:10px"><div style="display:flex"><b>${ph}</b><span style="margin-left:auto;color:var(--mut);font-size:12.5px">${d}/${ts.length}</span></div><div class="bar" style="margin-top:8px"><i style="width:${Math.round(d/ts.length*100)}%"></i></div></div>`}).join(''):`<div class="card pad">${checklist}<div class="addrow"><input id="newtask_${c.id}" placeholder="Add a task we didn't think of…" onkeydown="if(event.key==='Enter')addTaskTo('${c.id}')"><button class="btn pri" onclick="addTaskTo('${c.id}')">+ Add</button></div></div>`}
+  const r=c.req||emptyReq();
+  const a=c.about||emptyAbout();
+  const mx=c.mix;const mixBar=mx?`<div class="mixbars"><i style="width:${mx.conv}%;background:#6366f1"></i><i style="width:${mx.gnma}%;background:#10b981"></i><i style="width:${mx.nonagency}%;background:#f59e0b"></i><i style="width:${mx.other}%;background:#94a3b8"></i></div>`:'';
+  const favs=[['Restaurant',a.restaurant],['Coffee',a.coffee],['Cocktail',a.cocktail],['Soft drink',a.softdrink],['Candy',a.candy],['Snack',a.snack],['Team',a.team],['Movie',a.movie],['Hobby',a.hobby],['Relax',a.relax],['Charity',a.charity]].filter(x=>x[1]);
+  const aboutFilled=favs.length||a.whyMortgageCo||a.greatestConcern||a.recognitionPref||a.dobMD;
+  const aboutBody=aboutFilled?
+    `${a.dobMD?`<div class="field"><span class="fl">DOB (m/d)</span><span class="fv">${a.dobMD}</span></div>`:''}${a.recognitionPref?`<div class="field"><span class="fl">Recognition</span><span class="fv">${a.recognitionPref}</span></div>`:''}<div class="favgrid" style="margin-top:8px">${favs.map(f=>`<div class="field"><span class="fl">${f[0]}</span><span class="fv">${f[1]}</span></div>`).join('')}</div>${a.whyMortgageCo?`<div class="grp-h" style="margin-top:12px">Why a mortgage co.</div><div style="font-size:12.5px;color:var(--ink2)">${a.whyMortgageCo}</div>`:''}${a.greatestConcern?`<div class="grp-h" style="margin-top:10px">Greatest concern</div><div style="font-size:12.5px;color:var(--ink2)">${a.greatestConcern}</div>`:''}`
+    :'<small style="color:var(--mut)">Not captured yet — the new hire fills this by end of Day 1.</small>';
+  const lv=window._recv||'lanes';
+  const laneTable=buildLanes(c,phs);
+  return `<div class="card pad"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">${avatar(fullName(c),60)}<div><h2 style="margin:0;font-size:23px">${fullName(c)}</h2><div style="color:var(--mut);font-size:13.5px;margin-top:3px">${trackPill(c.track)} · ${c.role}${c.roleCode?` · <b style="color:var(--ink2)">${c.roleCode}</b>`:''} · <b style="color:var(--ink)">${currentPhase(c)}</b></div></div><div style="margin-left:auto;display:flex;gap:12px;align-items:center"><button class="btn ghost" onclick="window._recv='access';render()">▥ Access</button><button class="btn ghost" onclick="openEdit('${c.id}')">✎ Edit</button><div style="text-align:center;background:linear-gradient(135deg,var(--nav),var(--nav2));color:#fff;border-radius:14px;padding:12px 22px"><div style="font-size:24px;font-weight:800;line-height:1">${daysFromNow(c.start)>=0?daysFromNow(c.start):'—'}</div><div style="font-size:11px;color:#cdb87a;margin-top:4px">days to Day 1</div></div></div></div></div>
+  <div class="grid" style="grid-template-columns:360px 1fr;gap:18px;margin-top:18px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card pad"><h2 class="sec">Record</h2><div class="field"><span class="fl">First / last</span><span class="fv">${c.first||'—'} / ${c.last||'—'}</span></div><div class="field"><span class="fl">Cell</span><span class="fv">${c.fields.cell||'—'}</span></div><div class="field"><span class="fl">Email</span><span class="fv">${c.fields.email||'—'}</span></div><div class="field"><span class="fl">NMLS</span><span class="fv">${c.fields.nmls||'—'}</span></div><div class="field" style="border:none;padding-bottom:0"><span class="fl">Product mix</span><span class="fv">${mixStr(c)}</span></div>${mixBar}<div class="field"><span class="fl">Avg loan amount</span><span class="fv">${c.fields.avgLoan||'—'}</span></div><div class="field"><span class="fl">Start date</span><span class="fv">${c.start}</span></div>${govNote}</div>
+      <div class="card pad"><div style="display:flex;align-items:center;margin-bottom:10px"><h2 class="sec" style="margin:0">Requisition</h2><button class="openhint" style="margin-left:auto" onclick="openReq('${c.id}')">✎ Edit</button></div><p style="font-size:11px;color:var(--mut);margin:0 0 8px">Captured from the New Hire Request — the form lives in <b>Forms</b>.</p><div class="field"><span class="fl">Type · status</span><span class="fv">${r.reqType} · ${r.status}</span></div><div class="field"><span class="fl">FLSA</span><span class="fv">${r.flsa}</span></div><div class="field"><span class="fl">NMLS</span><span class="fv">${r.nmlsReq}</span></div><div class="field"><span class="fl">Location · mode</span><span class="fv">${r.location||'—'} · ${r.workMode}</span></div><div class="field"><span class="fl">Hiring manager</span><span class="fv">${r.manager||'—'}</span></div>${r.offerTerms?`<div class="field"><span class="fl">Offer terms</span><span class="fv" style="max-width:180px">${r.offerTerms}</span></div>`:''}${r.equipment?`<div class="field"><span class="fl">Equipment</span><span class="fv" style="max-width:180px">${r.equipment}</span></div>`:''}<div class="field"><span class="fl">Dept-head approval</span><span class="fv">${r.deptHeadApproved?'<span class="pill p-ok">Approved</span>':'<span class="pill p-wait">Pending</span>'}</span></div></div>
+      <div class="card pad"><div style="display:flex;align-items:center;margin-bottom:6px"><h2 class="sec" style="margin:0">All About You <span class="openhint" style="margin-left:8px;cursor:pointer" onclick="openSOP('about')">?</span></h2><button class="openhint" style="margin-left:auto" onclick="openAbout('${c.id}')">✎ Edit</button></div><p style="font-size:11px;color:var(--mut);margin:0 0 8px">Stored on the durable <b>person record</b> · captured Day 1 · powers recognition.</p>${aboutBody}</div>
+    </div>
+    <div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div class="seg"><button class="${lv==='list'?'on':''}" onclick="window._recv='list';render()">✓ List</button><button class="${lv==='lanes'?'on':''}" onclick="window._recv='lanes';render()">⊞ Swim lanes</button><button class="${lv==='access'?'on':''}" onclick="window._recv='access';render()">▥ Access setup</button><button class="${lv==='huddle'?'on':''}" onclick="window._recv='huddle';render()">◎ Huddle</button></div><span style="margin-left:auto;font-size:12.5px;font-weight:800;color:var(--ink2)">${pr.done}/${pr.total} · ${pr.pct}%</span></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">${phs.map(ph=>{const ts=c.tasks.filter(t=>t.phase===ph);if(!ts.length)return'';const d=ts.filter(t=>t.done).length;const full=d===ts.length;const part=d>0&&!full;return `<span class="pill ${full?'p-ok':part?'p-soon':''}" ${full||part?'':'style="background:#eef0f5;color:var(--mut)"'}>${ph} ${d}/${ts.length}</span>`;}).join('')}</div><div class="bar" style="margin-bottom:16px"><i style="width:${pr.pct}%"></i></div>
+    ${lv==='lanes'?`<div class="card pad">${laneTable}</div>`:lv==='access'?accessChecklist(c):lv==='huddle'?huddleBody(c):`<div class="card pad">${checklist}<div class="addrow"><input id="newtask_${c.id}" placeholder="Add a task we didn't think of…" onkeydown="if(event.key==='Enter')addTaskTo('${c.id}')"><button class="btn pri" onclick="addTaskTo('${c.id}')">+ Add</button></div></div>`}
     </div></div>`;
 }
-function renderHuddle(){
+// per-candidate provisioning checklist — rendered inside the candidate record
+function accessChecklist(c){
+  if(!c.roleCode)return `<div class="card pad"><p style="color:var(--ink2);margin:0">No Access-Matrix role set for <b>${fullName(c)}</b> — common for executives (custom provisioning). <span class="openhint" onclick="openEdit('${c.id}')">Set a role</span> to generate a role-specific setup checklist. Edit the matrix itself in <b>Admin · Matrix</b>.</p></div>`;
+  const groups=provList(c.roleCode);c.prov=c.prov||{};
+  const total=groups.reduce((s,g)=>s+g.items.length,0);const done=groups.reduce((s,g)=>s+g.items.filter(it=>c.prov[it.key]).length,0);
+  const body=groups.map(g=>`<div class="acc-grp"><div class="gh" style="background:${g.col}">${g.owner}<span class="gc">${g.items.filter(it=>c.prov[it.key]).length}/${g.items.length}</span></div><div>${g.items.map(it=>`<div class="acc-item"><div class="chk ${c.prov[it.key]?'done':''}" onclick="toggleProv('${c.id}','${it.key}')">${c.prov[it.key]?'✓':''}</div><div class="an">${it.sys}${it.note?`<small>${it.note}</small>`:''}</div><span class="lvl ${it.base?'std':''}">${it.level}</span></div>`).join('')}</div></div>`).join('');
+  return `<div class="card pad" style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:12px"><div><b style="font-size:14px">${roleName(c.roleCode)} (${c.roleCode})</b><div style="font-size:11.5px;color:var(--mut)">role-based provisioning — a checklist within ${fullName(c).split(' ')[0]}'s process</div></div><div style="margin-left:auto;text-align:right"><div style="font-size:18px;font-weight:800">${done}/${total}</div><div style="font-size:10.5px;color:var(--mut)">provisioned</div></div></div><div class="bar" style="margin-top:10px"><i style="width:${total?Math.round(done/total*100):0}%"></i></div><p style="font-size:11px;color:var(--ink2);margin:10px 0 0">Driven by <b>role × Access Matrix</b>, not track. Access <b>levels</b> are role-specific. Least privilege — systems not listed aren't granted. Change roles/systems/levels in <b>Admin · Matrix</b>.</p></div>${body}`;
+}
+function renderAccess(){
   const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
+  if(!c.roleCode)return `<div class="card pad" style="max-width:620px"><h2 class="sec">No matrix role set</h2><p style="color:var(--ink2)"><b>${fullName(c)}</b> (${c.role}) has no Access-Matrix role assigned — common for executives, who get custom provisioning. Set a role on the record to drive a role-specific setup list.</p><button class="btn pri" onclick="openEdit('${c.id}')">✎ Set role</button></div>`;
+  const groups=provList(c.roleCode);c.prov=c.prov||{};
+  const total=groups.reduce((s,g)=>s+g.items.length,0);const done=groups.reduce((s,g)=>s+g.items.filter(it=>c.prov[it.key]).length,0);
+  const body=groups.map(g=>`<div class="acc-grp"><div class="gh" style="background:${g.col}">${g.owner}<span class="gc">${g.items.filter(it=>c.prov[it.key]).length}/${g.items.length}</span></div><div>${g.items.map(it=>`<div class="acc-item"><div class="chk ${c.prov[it.key]?'done':''}" onclick="toggleProv('${c.id}','${it.key}')">${c.prov[it.key]?'✓':''}</div><div class="an">${it.sys}${it.note?`<small>${it.note}</small>`:''}</div><span class="lvl ${it.base?'std':''}">${it.level}</span></div>`).join('')}</div></div>`).join('');
+  return `<div class="card pad" style="margin-bottom:16px"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">${avatar(fullName(c),48)}<div><h2 style="margin:0;font-size:19px">${fullName(c)}</h2><div style="color:var(--mut);font-size:13px;margin-top:2px">${trackPill(c.track)} · ${c.role} · <b style="color:var(--ink)">${roleName(c.roleCode)} (${c.roleCode})</b></div></div><div style="margin-left:auto;text-align:right"><div style="font-size:22px;font-weight:800">${done}/${total}</div><div style="font-size:11px;color:var(--mut)">systems provisioned</div></div></div><div class="bar" style="margin-top:14px"><i style="width:${total?Math.round(done/total*100):0}%"></i></div><p style="font-size:12px;color:var(--ink2);margin:12px 0 0">Driven by <b>role × Access Matrix</b> (05_Access_Matrix) — not the track. Access <b>levels</b> (OrgID / Name / All, Quote vs Cert, clear-conditions scope) are role-specific. <b>Least privilege:</b> systems not listed are intentionally not granted for this role.</p></div>${body}`;
+}
+function renderHuddle(){const c=getCand(cand);return c?huddleBody(c):'<div class="empty">No candidate.</div>';}
+function huddleBody(c){
   const owners=[...new Set(c.tasks.map(t=>t.owner))];
   const chips=owners.slice(0,8).map(o=>`<span class="pill p-sales" style="background:var(--bg);color:var(--ink2)">${o}</span>`).join(' ');
   const issues=c.issues.length?c.issues.map((iss,i)=>`<div class="task" style="align-items:flex-start"><div class="chk ${iss.fixed?'done':'blk'}" style="cursor:default;margin-top:2px">${iss.fixed?'✓':'!'}</div><div class="tw"><b>${iss.text}</b><div style="margin-top:7px;display:flex;gap:7px;flex-wrap:wrap"><span class="openhint" style="background:${iss.fixed?'#065f46':'var(--emerald-bg)'};color:${iss.fixed?'#fff':'#059669'}" onclick="issueAct('${c.id}',${i},'fixed')">${iss.fixed?'✓ Fixed':'Fix now'}</span><span class="openhint" style="background:${iss.sop?'#5b21b6':'var(--violet-bg)'};color:${iss.sop?'#fff':'#7c3aed'}" onclick="issueAct('${c.id}',${i},'sop')">${iss.sop?'✓ SOP updated':'Improve SOP'}</span></div></div></div>`).join(''):'<div class="empty">No issues logged yet — add what surfaces in the huddle.</div>';
   return `<div class="grid" style="grid-template-columns:1.2fr 1fr;gap:18px;align-items:start">
-    <div class="card pad"><h2 class="sec">${c.name} · onboarding huddle</h2><p style="font-size:12.5px;color:var(--ink2);margin:0 0 8px"><b>Auto-built invite</b> — everyone who touched the onboarding:</p><div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div><p style="font-size:12px;color:var(--mut);margin-top:12px">Cadence: tapering — adaptive to need + how well we're preventing pain.</p></div>
+    <div class="card pad"><h2 class="sec">${fullName(c)} · onboarding huddle</h2><p style="font-size:12.5px;color:var(--ink2);margin:0 0 8px"><b>Auto-built invite</b> — everyone who touched the onboarding:</p><div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div><p style="font-size:12px;color:var(--mut);margin-top:12px">Cadence: tapering — adaptive to need + how well we're preventing pain.</p></div>
     <div class="card pad"><h2 class="sec">Continuous improvement</h2><p style="font-size:13px;color:var(--ink2);margin:0">${c.issues.length} issue(s) this onboarding · ${c.issues.filter(i=>i.sop).length} fed into SOP improvements. Each one closes the gap for the next hire.</p></div>
   </div>
   <div class="card pad" style="margin-top:18px"><h2 class="sec">What wasn't perfect → fix now + improve the SOP</h2>${issues}<div class="addrow"><input id="newissue" placeholder="Add an issue that surfaced…" onkeydown="if(event.key==='Enter')addIssue('${c.id}')"><button class="btn pri" onclick="addIssue('${c.id}')">+ Add issue</button></div></div>`;
 }
 function renderPortal(){
   const c=getCand(cand);if(!c)return'<div class="empty">No candidate.</div>';
-  const dd=daysFromNow(c.start);const pct=progress(c).pct;const fn=c.name.split(' ')[0];
+  const dd=daysFromNow(c.start);const pct=progress(c).pct;const fn=c.first||fullName(c).split(' ')[0];
   const team=[
     ['Your recruiter','Taylor Brooks','tbrooks@goapmc.com','(847) 555-0101'],
-    ['Your manager','Mike Morales','mmorales@goapmc.com','(847) 555-0114'],
+    ['Your manager',(c.req&&c.req.manager)||'Mike Morales','mmorales@goapmc.com','(847) 555-0114'],
     ['Your mentor','Jenna Liu','jliu@goapmc.com','(847) 555-0132'],
     ['People Ops (HR)','Chelsea Reyna','creyna@goapmc.com','(847) 555-0150'],
     ['IT help desk','APMC IT','ithelp@goapmc.com','(847) 555-0199'],
@@ -387,6 +648,41 @@ function renderPortal(){
 }
 function renderSOPs(){
   return `<p style="color:var(--ink2);max-width:760px;margin:0 0 18px">Every procedure lives here and is wired into the matching task. Click to open.</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(258px,1fr))">${Object.keys(SOPS).map(k=>`<div class="card pad" style="cursor:pointer" onclick="openSOP('${k}')"><div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--indigo)">${SOPS[k].tag}</div><h3 style="margin:8px 0 8px;font-size:15px">${SOPS[k].title}</h3><span class="openhint">Open ›</span></div>`).join('')}</div>`;
+}
+function renderForms(){
+  return `<p style="color:var(--ink2);max-width:800px;margin:0 0 18px">These are the <b>information-gathering forms</b> — the actual artifacts we fill in or send out. A form is a collection instrument: it's filled once, and the <b>answers land on the person's profile</b>, referenced everywhere (collected once, never re-asked).</p>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:18px;align-items:start">
+    <div class="card pad">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><h3 style="margin:0;font-size:17px">New Hire Request</h3><span class="pill p-sales" style="margin-left:auto">Entry point</span></div>
+      <p style="font-size:12.5px;color:var(--ink2);margin:8px 0">Filled by the <b>hiring manager</b> to open a requisition. Submitting it <b>creates the candidate</b> and generates their checklist — this is the front door to the whole lifecycle. The captured info then shows on the candidate's Record.</p>
+      <div style="font-size:11.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><b>Captures:</b> first / last · title · role · type (replacement/addition) · status · FLSA · NMLS requirement · location · work mode · hiring manager · offer terms · equipment.</div>
+      <button class="btn pri" style="margin-top:14px" onclick="openAdd()">+ Start a New Hire Request</button>
+    </div>
+    <div class="card pad">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><h3 style="margin:0;font-size:17px">All About You</h3><span class="pill p-ok" style="margin-left:auto">Sent to new hire</span></div>
+      <p style="font-size:12.5px;color:var(--ink2);margin:8px 0">Sent <b>to the new hire</b>, completed by end of Day 1. It powers the recognition engine (birthdays, gifts, "you matter" touches). Answers store on the <b>durable person record</b> — their profile — never a CRM.</p>
+      <div style="font-size:11.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><b>Captures:</b> preferred name · DOB (m/d) · personal contact · favorites · recognition preference · what matters most · biggest concern.</div>
+      <label style="font-size:12px;font-weight:700;color:var(--ink2);margin-top:14px;display:block">Capture / preview for a candidate</label>
+      <div style="display:flex;gap:9px;margin-top:6px"><select id="fcand" style="flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font:inherit">${state.cands.map(c=>`<option value="${c.id}">${fullName(c)}</option>`).join('')}</select><button class="btn pri" onclick="openAbout(document.getElementById('fcand').value)">Open form</button></div>
+    </div>
+  </div>
+  <div class="card pad" style="margin-top:18px"><h2 class="sec">Why forms live here, not on the candidate page</h2><p style="font-size:13px;color:var(--ink2);margin:0">The candidate page holds the <b>captured information</b>. The <b>forms</b> are the instruments that collect it: the <b>New Hire Request</b> is the front door that creates the candidate, and <b>All About You</b> goes out to the new hire. Keeping the forms here — and the answers on the profile — is the "collect once, reference everywhere" rule made literal.</p></div>`;
+}
+function renderAdmin(){
+  const rolesChips=state.roles.map(r=>`<span class="pill" style="background:var(--bg);color:var(--ink2);padding-right:6px">${r.n} <b style="color:var(--mut);font-weight:700">(${r.c})</b> <span style="cursor:pointer;color:var(--mut);font-weight:800;margin-left:4px" title="rename" onclick="renameRole('${r.c}')">✎</span><span style="cursor:pointer;color:var(--rose);font-weight:800;margin-left:2px" title="remove" onclick="deleteRole('${r.c}')">✕</span></span>`).join(' ');
+  const sel=window._arole&&state.roles.some(r=>r.c===window._arole)?window._arole:(state.roles[0]&&state.roles[0].c)||'';
+  const role=state.roles.find(r=>r.c===sel);
+  const roleSelOpts=state.roles.map(r=>`<option value="${r.c}" ${r.c===sel?'selected':''}>${r.n} (${r.c})</option>`).join('');
+  const groups=state.matrix.map((g,gi)=>{
+    const rows=g.rows.map((row,ri)=>{
+      if(row.base)return `<div class="acc-item"><div class="an">${row.s}${row.note?`<small>${row.note}</small>`:''}</div><span class="lvl std">Standard (all)</span><span style="cursor:pointer;color:var(--rose);font-size:10px;font-weight:800;margin-left:8px" onclick="deleteSystem(${gi},${ri})">✕</span></div>`;
+      return `<div class="acc-item"><div class="an">${row.s}${row.note?`<small>${row.note}</small>`:''}</div><input value="${esc(row.vals&&row.vals[sel]||'')}" onchange="setVal(${gi},${ri},'${sel}',this.value)" placeholder="— (no access)" style="width:170px;border:1px solid var(--line);border-radius:7px;padding:6px 9px;font:inherit;font-size:12px"><span style="cursor:pointer;color:var(--rose);font-size:10px;font-weight:800;margin-left:8px" onclick="deleteSystem(${gi},${ri})">✕</span></div>`;
+    }).join('')||'<div class="acc-item"><span style="color:var(--mut);font-size:12px">No systems yet — add one.</span></div>';
+    return `<div class="acc-grp"><div class="gh" style="background:${g.col}">${g.o}<span class="gc" style="cursor:pointer" onclick="addSystem(${gi})">+ system</span></div><div>${rows}</div></div>`;
+  }).join('');
+  return `<div class="card pad" style="margin-bottom:16px"><div style="display:flex;align-items:center;margin-bottom:10px"><h2 class="sec" style="margin:0">Roles</h2><button class="btn pri" style="margin-left:auto" onclick="addRole()">+ Add role</button></div><div style="display:flex;gap:8px;flex-wrap:wrap">${rolesChips}</div><p style="font-size:11.5px;color:var(--mut);margin:12px 0 0">These drive role-based provisioning on every candidate. Add a role and it appears in the candidate role picker; new roles start with no access until you set values below. Everything here persists.</p></div>
+  <div class="card pad" style="margin-bottom:16px"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="sec" style="margin:0">Edit access for role</h2><select onchange="window._arole=this.value;render()" style="border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit">${roleSelOpts}</select><button class="btn ghost" style="margin-left:auto" onclick="addGroup()">+ Add system group</button></div><p style="font-size:11.5px;color:var(--ink2);margin:10px 0 0">Editing <b>${role?role.n+' ('+role.c+')':'—'}</b>. Type the access level per system — e.g. <b>OrgID</b>, <b>Name only</b>, <b>All</b>, <b>Quote</b>, <b>Cert</b>, <b>Y</b>, <b>Prelim</b>, <b>CL/FN</b> — or leave blank / <b>—</b> for no access. Saves instantly.</p></div>
+  ${groups}`;
 }
 setNav();render();
 </script>
